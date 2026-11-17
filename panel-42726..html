@@ -1,0 +1,3053 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+  <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet">
+  <meta name="referrer" content="no-referrer">
+  <title>Salam Momineen — Admin Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'Noto Nastaliq Urdu Local';
+      src: local('Noto Nastaliq Urdu');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+    :root {
+      --bg-ivory: #F7F5EF;
+      --deep-green: #1F4D45;
+      --deep-green-dark: #12302B;
+      --gold: #B8893B;
+      --gold-light: #F4EAD4;
+      --danger: #9E2A2B;
+      --danger-light: #FDE8E8;
+      --card-bg: #FFFFFF;
+      --border: #E2DDD5;
+      --text: #1A2624;
+      --text-muted: #5A6B66;
+      --success: #1E7E34;
+      --success-light: #E8F5E9;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg-ivory);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.65;
+    }
+    /* Strict Urdu Nastaliq Typography Rule: line-height >= 2.15 */
+    html[lang="ur"] body,
+    html[lang="ur"] input,
+    html[lang="ur"] select,
+    html[lang="ur"] button,
+    html[lang="ur"] table,
+    html[lang="ur"] .nastaliq {
+      font-family: 'Noto Nastaliq Urdu', 'Noto Naskh Arabic', serif;
+      line-height: 2.18 !important;
+    }
+    html[lang="hi"] body {
+      font-family: 'Noto Sans Devanagari', sans-serif;
+      line-height: 1.75;
+    }
+    header {
+      background-color: var(--deep-green);
+      color: var(--bg-ivory);
+      padding: 14px 24px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 3px solid var(--gold);
+    }
+    header h1 { font-size: 1.25rem; font-weight: 700; }
+    .badge {
+      background: var(--gold);
+      color: #fff;
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    .badge-role {
+      background: var(--deep-green-dark);
+      border: 1px solid var(--gold);
+      color: var(--gold-light);
+      font-size: 0.78rem;
+      padding: 3px 10px;
+      border-radius: 4px;
+    }
+    .toolbar-bar {
+      background: var(--gold-light);
+      color: var(--deep-green-dark);
+      padding: 10px 24px;
+      font-size: 0.85rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .main-container {
+      flex: 1;
+      padding: 20px;
+      max-width: 1240px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .tabs {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 8px;
+      overflow-x: auto;
+    }
+    .tab-btn {
+      padding: 8px 14px;
+      background: #EAE6DC;
+      border: 1px solid var(--border);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+    .tab-btn.active {
+      background: var(--deep-green);
+      color: var(--bg-ivory);
+      border-color: var(--deep-green);
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .card-title { font-size: 1.08rem; font-weight: 700; color: var(--deep-green); }
+    .card-meta { font-size: 0.85rem; color: var(--text-muted); }
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    .data-table th, .data-table td {
+      padding: 10px 12px;
+      text-align: start;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.86rem;
+      vertical-align: middle;
+    }
+    .data-table th { background: #FAF9F5; color: var(--text-muted); font-weight: 700; }
+    .btn {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-block;
+      margin: 2px;
+    }
+    .btn:hover { opacity: 0.92; }
+    .btn-approve { background: var(--deep-green); color: #fff; }
+    .btn-reject, .btn-danger { background: var(--danger); color: #fff; }
+    .btn-remove { background: #4B5563; color: #fff; }
+    .btn-primary { background: var(--gold); color: #fff; padding: 8px 16px; }
+    .btn-outline { background: transparent; border: 1px solid var(--deep-green); color: var(--deep-green); }
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin: 2px;
+    }
+    .tag-pending { background: #FEF3C7; color: #92400E; }
+    .tag-approved { background: var(--success-light); color: var(--success); }
+    .tag-danger { background: var(--danger-light); color: var(--danger); }
+    .tag-perm { background: #E0E7FF; color: #1E40AF; }
+    .denied-screen {
+      text-align: center;
+      padding: 72px 24px;
+      background: var(--card-bg);
+      border-radius: 12px;
+      border: 2px solid var(--danger);
+      margin-top: 40px;
+    }
+    .denied-screen h2 { color: var(--danger); font-size: 1.9rem; margin-bottom: 12px; }
+    .denied-screen p { color: var(--text-muted); font-size: 1rem; margin-bottom: 20px; max-width: 540px; margin-inline: auto; }
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .form-group label { display: block; font-size: 0.84rem; font-weight: 600; margin-bottom: 4px; color: var(--deep-green-dark); }
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.88rem;
+      background: #fff;
+    }
+    .perm-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 8px;
+      margin: 10px 0 16px;
+      padding: 12px;
+      background: #FAF9F5;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+    .perm-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+    .notice-banner {
+      padding: 10px 14px;
+      border-radius: 6px;
+      background: #FFFBEB;
+      border: 1px solid #F59E0B;
+      color: #92400E;
+      font-size: 0.85rem;
+      margin-bottom: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+      <h1 id="lbl-app-title">سلام مومنین — ایڈمن پورٹل</h1>
+      <span class="badge" id="lbl-isolated-badge">الگ ایڈمن ایپ</span>
+      <span class="badge-role" id="lbl-active-role">...</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+      <select id="langSelect" aria-label="Language" style="padding: 5px 8px; border-radius: 6px; border: 1px solid var(--gold); background: var(--deep-green-dark); color: #fff;">
+        <option value="ur">اردو (Urdu)</option>
+        <option value="hi">हिन्दी (Hindi)</option>
+        <option value="en">English</option>
+      </select>
+      <button class="btn btn-primary" id="btnReauth" onclick="triggerStepUpReauth()" style="display: none;">دوبارہ تصدیق کریں</button>
+      <button class="btn btn-danger" id="btnSignOut" onclick="handleSignOut()" style="display: none;">سائن آؤٹ (Sign Out)</button>
+    </div>
+  </header>
+
+  <div class="toolbar-bar" id="authToolbarBar">
+    <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+      <span id="lbl-auth-status" class="tag tag-pending">Firebase Auth Loading...</span>
+      <span id="lbl-session-timer" style="display: none;">سیشن کی مدت: زیادہ سے زیادہ 8 گھنٹے</span>
+      <span id="lbl-reauth-status" class="tag tag-pending" style="display: none; margin-inline-start: 8px;"></span>
+      <span id="lbl-scope-badge" class="tag tag-perm" style="display: none; margin-inline-start: 6px;"></span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+      <span id="lbl-user-email-display" style="font-size: 0.85rem; font-weight: 600;"></span>
+      <button class="btn btn-primary" id="btnGoogleSignIn" onclick="handleGoogleSignIn('popup')" style="display: inline-flex; align-items: center; gap: 6px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/></svg>
+        Sign in with Google
+      </button>
+      <button class="btn btn-outline" id="btnGoogleRedirectToolbar" onclick="handleGoogleSignIn('redirect')" style="font-size: 0.8rem;">
+        Mobile Redirect Sign-In
+      </button>
+    </div>
+  </div>
+
+  <!-- NOT SIGNED IN VIEW -->
+  <div class="main-container" id="notSignedInView" style="display: block;">
+    <div class="denied-screen" style="max-width: 700px; margin: 36px auto; text-align: center;">
+      <h2 style="color: var(--deep-green); margin-bottom: 12px;">سلام مومنین — ایڈمن پورٹل لاگ ان</h2>
+      <p style="color: var(--text-muted); margin-bottom: 20px;">
+        This standalone static administration portal uses the official Firebase Web SDK on the free Spark plan (no Node server required). Access is verified directly via Firestore Security Rules against <code>admins/{uid}</code>.
+      </p>
+
+      <!-- Popup Blocked / Auth Diagnostic Message Box -->
+      <div id="authNoticeBanner" class="notice-banner" style="display: none; text-align: start; margin-bottom: 20px;"></div>
+
+      <div style="margin: 20px 0; display: flex; flex-direction: column; align-items: center; gap: 12px;">
+        <button class="btn btn-primary" onclick="handleGoogleSignIn('popup')" style="font-size: 1rem; padding: 12px 24px; display: inline-flex; align-items: center; gap: 10px;">
+          <svg width="20" height="20" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/></svg>
+          Google سائن ان کے ساتھ لاگ ان کریں (Sign in with Google)
+        </button>
+
+        <button class="btn btn-outline" onclick="handleGoogleSignIn('redirect')" style="font-size: 0.92rem; padding: 10px 20px;">
+          📱 موبائل براؤزر ری ڈائریکٹ سائن ان (Use Redirect Sign-In if Popup is Blocked)
+        </button>
+      </div>
+      <div style="font-size: 0.82rem; color: var(--text-muted); margin-top: 18px;">
+        Approved Super Admin Email: <strong>hasan110abbas@gmail.com</strong> (case-insensitive)
+      </div>
+    </div>
+  </div>
+
+  <!-- SUPER ADMIN BOOTSTRAP INSTRUCTIONS SCREEN (Shown when hasan110abbas@gmail.com signs in but admins/{uid} document is not yet in Firestore) -->
+  <div class="main-container" id="superAdminBootstrapView" style="display: none;">
+    <div class="card" style="max-width: 860px; margin: 30px auto; border-top: 4px solid var(--gold);">
+      <div class="card-header">
+        <div>
+          <div class="card-title" style="font-size: 1.25rem; color: var(--deep-green);">
+            🔑 Super Admin Bootstrap Mode (Method A: Firebase Console)
+          </div>
+          <div class="card-meta">
+            Welcome, <strong id="lbl-bootstrap-email">hasan110abbas@gmail.com</strong>! Google Authentication is verified.
+          </div>
+        </div>
+        <button class="btn btn-outline" onclick="checkAdminStatus(true)">ریفریش چیک کریں (Refresh Status)</button>
+      </div>
+
+      <div class="notice-banner" style="background: #FEF3C7; border-color: #F59E0B; color: #92400E; margin-bottom: 14px;">
+        <strong>Your Authenticated Firebase UID is:</strong>
+        <div style="margin: 8px 0; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+          <input type="text" id="txtBootstrapUid" readonly style="font-family: monospace; font-size: 1rem; padding: 8px 12px; width: 100%; max-width: 440px; background: #fff; border: 2px solid var(--gold); border-radius: 6px; font-weight: 700; color: #1E293B;">
+          <button class="btn btn-primary" onclick="copyBootstrapUid()">UID کاپی کریں (Copy UID)</button>
+        </div>
+      </div>
+
+      <div id="bootstrapDiagnosticBox" class="notice-banner" style="background: #F1F5F9; border-color: #64748B; color: #0F172A; font-family: monospace; font-size: 0.82rem; line-height: 1.7; margin-bottom: 20px; direction: ltr; text-align: left;">
+        Loading Firestore diagnostic...
+      </div>
+
+      <div style="margin-bottom: 20px;">
+        <h3 style="font-size: 1.05rem; color: var(--deep-green-dark); margin-bottom: 10px;">
+          📌 Step-by-Step Instructions to Activate Super Admin in Firebase Console:
+        </h3>
+        <ol style="margin-inline-start: 24px; line-height: 1.9; font-size: 0.92rem; color: var(--text);">
+          <li>Open the <a href="https://console.firebase.google.com/" target="_blank" rel="noopener" style="color: var(--deep-green); font-weight: 700; text-decoration: underline;">Firebase Console</a> and select project: <strong>gen-lang-client-0759472098</strong>.</li>
+          <li>In the left sidebar under <strong>Build</strong>, click on <strong>Firestore Database</strong>.</li>
+          <li>Ensure the database selected in the top dropdown is <strong>ai-studio-android-safinaja-c2c730c2-5fab-4c83-b8fd-f4801e7a9aba</strong>.</li>
+          <li>Click <strong>Start collection</strong> (or select existing collection):
+            <br>&bull; <strong>Collection ID</strong>: <code>admins</code>
+          </li>
+          <li>In the <strong>Document ID</strong> field, paste your exact Firebase UID copied above:
+            <br>&bull; <strong>Document ID</strong>: <code id="lbl-uid-inline">...</code>
+          </li>
+          <li>Add the following 6 fields:
+            <table class="data-table" style="margin: 10px 0; font-size: 0.88rem;">
+              <thead>
+                <tr>
+                  <th>Field Name</th>
+                  <th>Type</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><code>uid</code></td><td>string</td><td><span class="txtCurrentUid">your_uid</span></td></tr>
+                <tr><td><code>email</code></td><td>string</td><td><code>hasan110abbas@gmail.com</code> (case-insensitive)</td></tr>
+                <tr><td><code>role</code></td><td>string</td><td><code>SUPER_ADMIN</code> (or <code>super</code>, case-insensitive)</td></tr>
+                <tr><td><code>disabled</code></td><td>boolean</td><td><code>false</code></td></tr>
+                <tr><td><code>isLastSuperAdmin</code></td><td>boolean</td><td><code>true</code></td></tr>
+                <tr><td><code>createdAt</code></td><td>number</td><td><code>1700000000000</code></td></tr>
+              </tbody>
+            </table>
+          </li>
+          <li>Click <strong>Save</strong> in Firebase Console.</li>
+          <li>Come back to this screen and click <strong>"ریفریش چیک کریں (Refresh Status)"</strong> below. The full Admin Portal will immediately unlock!</li>
+        </ol>
+      </div>
+
+      <div style="display: flex; gap: 10px; justify-content: flex-end; padding-top: 14px; border-top: 1px solid var(--border);">
+        <button class="btn btn-outline" onclick="handleSignOut()">سائن آؤٹ (Sign Out)</button>
+        <button class="btn btn-primary" onclick="checkAdminStatus(true)">ریفریش چیک کریں (Refresh Status)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOT ALLOWED SCREEN (Shown to anyone signed in with an unauthorized email or lacking an active admin role) -->
+  <div class="main-container" id="notAllowedView" style="display: none;">
+    <div class="denied-screen" style="max-width: 660px; margin: 40px auto; text-align: center;">
+      <h2 id="lbl-not-allowed-title" style="color: var(--danger); margin-bottom: 10px;">اجازت نہیں ہے (Not allowed)</h2>
+      <p id="lbl-not-allowed-desc" style="color: var(--text-muted); margin-bottom: 14px;">
+        یہ ایپ صرف منظور شدہ منتظمین کے لیے ہے۔ آپ کے اکاؤنٹ کو رسائی حاصل نہیں ہے۔
+      </p>
+      <div style="margin: 16px 0; font-size: 0.88rem; background: var(--danger-light); padding: 12px; border-radius: 6px; border: 1px solid var(--danger);">
+        Signed in as: <strong id="lbl-unauthorized-email"></strong>
+        <br>UID: <code id="lbl-unauthorized-uid"></code>
+      </div>
+      <div id="notAllowedDiagnosticBox" class="notice-banner" style="background: #F1F5F9; border-color: #64748B; color: #0F172A; font-family: monospace; font-size: 0.82rem; line-height: 1.7; margin: 14px 0; direction: ltr; text-align: left;"></div>
+      <button class="btn btn-outline" onclick="handleSignOut()">دوسرے اکاؤنٹ سے سائن ان کریں (Switch Account)</button>
+    </div>
+  </div>
+
+  <!-- AUTHORIZED ADMIN PORTAL -->
+  <div class="main-container" id="adminPortalView" style="display: none;">
+    <div class="tabs" id="adminTabs"></div>
+
+    <!-- 1. SUPER ADMIN ONLY: MANAGE ADMINS & PERMISSIONS -->
+    <div id="sec-admins" class="tab-section" style="display: none;">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title" id="lbl-add-admin-title">نیا سب ایڈمن شامل کریں</div>
+            <div class="card-meta" id="lbl-reauth-prompt"></div>
+          </div>
+        </div>
+        <input type="hidden" id="editingAdminUid" value="">
+        <div class="form-grid">
+          <div class="form-group">
+            <label id="lbl-admin-uid" for="admUid">Sub-Admin Firebase UID</label>
+            <input type="text" id="admUid" placeholder="Firebase Auth UID">
+          </div>
+          <div class="form-group">
+            <label id="lbl-admin-email" for="admEmail">گوگل ای میل درج کریں</label>
+            <input type="email" id="admEmail" placeholder="Google account email">
+          </div>
+          <div class="form-group">
+            <label id="lbl-admin-state" for="admState">ریاست تک محدود کریں (اختیاری)</label>
+            <input type="text" id="admState" placeholder="State (optional)">
+          </div>
+          <div class="form-group">
+            <label id="lbl-admin-city" for="admCity">شہر تک محدود کریں (اختیاری)</label>
+            <input type="text" id="admCity" placeholder="City (optional)">
+          </div>
+          <div class="form-group">
+            <label id="lbl-admin-expiry" for="admExpiry">آخری تاریخ (اختیاری)</label>
+            <input type="date" id="admExpiry">
+          </div>
+        </div>
+        <label style="font-size: 0.85rem; font-weight: 700; color: var(--deep-green-dark);" id="lbl-admin-perms">اختیارات منتخب کریں</label>
+        <div class="perm-grid" id="permCheckboxes"></div>
+        <button class="btn btn-approve" id="btnSaveAdmin" onclick="saveSubAdmin()">ایڈمن محفوظ کریں</button>
+        <button class="btn btn-remove" id="btnCancelEdit" style="display:none;" onclick="resetAdminForm()">Cancel</button>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title" id="lbl-admins-list-title">ایڈمنز کا انتظام</div>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Permissions</th>
+              <th>Scope (State / City)</th>
+              <th>Expiry</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="adminsTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 2. BAZAAR MODERATION (`bazaar` permission) -->
+    <div id="sec-bazaar" class="tab-section" style="display: none;">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title" id="lbl-sec-bazaar">بازار</div>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Category</th>
+              <th>Price (INR)</th>
+              <th>City / State</th>
+              <th>Seller</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="bazaarTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 3. PERSONALITIES DIRECTORY (`directory_people` permission) -->
+    <div id="sec-people" class="tab-section" style="display: none;">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title" id="lbl-sec-people">شخصیات</div>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Role / Title</th>
+              <th>Category</th>
+              <th>City / State</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="peopleTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 4. MASJIDS & IMAMBARGAHS DIRECTORY (`directory_masjid` permission) -->
+    <div id="sec-masjids" class="tab-section" style="display: none;">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title" id="lbl-sec-masjids">مساجد و امام بارگاہ</div>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Town / State</th>
+              <th>Schedule</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="masjidsTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 4b. ZIYARAT CARAVANS MODERATION (`caravans` permission) -->
+    <div id="sec-caravans" class="tab-section" style="display: none;">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title" id="lbl-sec-caravans">زیارت قافلے (Caravans Moderation)</div>
+            <div class="card-meta">Approve, reject (with reason), edit fields (-> edit_logs), delete, or ban organisers. Expired departures (&lt; today) are auto-hidden in the user app.</div>
+          </div>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Title &amp; Docs</th>
+              <th>Destination</th>
+              <th>Departure &amp; Dates</th>
+              <th>Price &amp; Seats</th>
+              <th>Organiser &amp; Licence</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="caravansTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 5. VIDEOS (`videos` permission) -->
+    <div id="sec-videos" class="tab-section" style="display: none;">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title" id="lbl-add-video-title">نئی ویڈیو شامل کریں</div>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Title</label>
+            <input type="text" id="vidTitle" placeholder="Video title">
+          </div>
+          <div class="form-group">
+            <label>Speaker / Channel</label>
+            <input type="text" id="vidSpeaker" placeholder="Speaker or channel name">
+          </div>
+          <div class="form-group">
+            <label>Category</label>
+            <select id="vidCategory">
+              <option value="majlis">Majlis</option>
+              <option value="lecture">Lecture</option>
+              <option value="tafsir">Quran / Tafsir</option>
+              <option value="documentary">Documentary</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>HTTPS Link (YouTube / Vimeo / Aparat)</label>
+            <input type="url" id="vidUrl" placeholder="https://www.youtube.com/watch?v=...">
+          </div>
+        </div>
+        <button class="btn btn-approve" onclick="addVideoByAdmin()">+ Add Video</button>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title" id="lbl-sec-videos">ویڈیوز</div>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Speaker / Channel</th>
+              <th>Category</th>
+              <th>HTTPS Source</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="videosTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 6. RISHTA REVIEW (`rishta_review` permission — NO guardian phone numbers!) -->
+    <div id="sec-rishta_review" class="tab-section" style="display: none;">
+      <div class="card">
+        <div class="notice-banner" id="lbl-phone-hidden-notice">
+          رشتہ جائزہ میں سرپرست کا نمبر پوشیدہ ہے
+        </div>
+        <div class="card-header">
+          <div class="card-title" id="lbl-sec-rishta-review">رشتہ جائزہ</div>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Candidate</th>
+              <th>Age & Category</th>
+              <th>City / State</th>
+              <th>Education & Job</th>
+              <th>Guardian Phone</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="rishtaReviewTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 7. RISHTA CONTACTS & MUTUAL MATCHES (`rishta_contacts` permission — masked by default, tap to reveal & logged) -->
+    <div id="sec-rishta_contacts" class="tab-section" style="display: none;">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title" id="lbl-sec-rishta-contacts">رشتہ نمبرز و باہمی پسند</div>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Candidate</th>
+              <th>City / State</th>
+              <th>Guardian Name</th>
+              <th>Guardian Phone (Masked by Default)</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="rishtaContactsTableBody"></tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Mutual-Interest Matches (rishta_interests)</div>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Match ID</th>
+              <th>From Profile</th>
+              <th>To Profile</th>
+              <th>Mutual Status</th>
+            </tr>
+          </thead>
+          <tbody id="rishtaMatchesTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 8. REPORTS / COMPLAINTS (`reports` permission) -->
+    <div id="sec-reports" class="tab-section" style="display: none;">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title" id="lbl-sec-reports">شکایات</div>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Target Record</th>
+              <th>Reason</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="reportsTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 9. USERS LIST (`users_view` permission — NO personal contact data) -->
+    <div id="sec-users" class="tab-section" style="display: none;">
+      <div class="card">
+        <div class="notice-banner" id="lbl-users-privacy-notice">
+          صارفین کے ذاتی فون نمبرز اور رابطے یہاں نہیں دکھائے جاتے۔
+        </div>
+        <div class="card-header">
+          <div class="card-title" id="lbl-sec-users">صارفین کی فہرست</div>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>UID</th>
+              <th>Display Name</th>
+              <th>City / State</th>
+              <th>Account Status</th>
+              <th>Joined</th>
+            </tr>
+          </thead>
+          <tbody id="usersTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 9b. REVIEW SLIDES (Approve / Edit religious text so "Under review" tag disappears) -->
+    <div id="sec-slides" class="tab-section" style="display: none;">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title" id="lbl-sec-slides">Review slides / ہوم سلائیڈز کا جائزہ</div>
+            <div class="card-meta">Approve or edit religious ayat &amp; sayings so the "Under review" badge disappears once approved.</div>
+          </div>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Hijri Month / Date</th>
+              <th>Calligraphy &amp; Occasion</th>
+              <th>Verbatim Ayah / Saying &amp; Source</th>
+              <th>Mood</th>
+              <th>Review Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="slidesTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 0. DASHBOARD OVERVIEW -->
+    <div id="sec-dashboard" class="tab-section" style="display: none;">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Admin Control Centre Dashboard (Spark Plan • Serverless Rules)</div>
+            <div class="card-meta">Project: <code>gen-lang-client-0759472098</code> • Database: <code>ai-studio-android-safinaja-c2c730c2-5fab-4c83-b8fd-f4801e7a9aba</code> • Bootstrap Super Admin: <code>hasan110abbas@gmail.com</code></div>
+          </div>
+        </div>
+        <div class="form-grid" id="dashboardStatsGrid"></div>
+      </div>
+    </div>
+
+    <!-- 9c. CMS CONTENT, WEBP PHOTO COMPRESSOR & APP CONFIG (STAGE 4) -->
+    <div id="sec-cms" class="tab-section" style="display: none;">
+      <div class="card">
+        <div class="notice-banner" style="background:#FDE8E8;border-color:#9E2A2B;color:#9E2A2B;font-weight:700;">
+          ⚠️ STRICT RELIGIOUS RULE: Never upload images of faces or figures of the Prophet ﷺ, the Imams (a.s.), or Ahlul Bayt (a.s.). Only sacred architecture, calligraphy, geometric patterns, or nature are permitted.
+        </div>
+        <div class="card-header">
+          <div>
+            <div class="card-title">Browser WebP Photo Uploader (Free Spark Plan — Stored in Firestore <code>media/{id}</code>)</div>
+            <div class="card-meta">Automatically resizes longest side &le; 1280 px and compresses to WebP &le; 250 KB in browser without Cloud Storage.</div>
+          </div>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Select Photo (Phone / Desktop)</label>
+            <input type="file" id="cmsPhotoInput" accept="image/*">
+          </div>
+          <div class="form-group">
+            <label>Photographer / Artist Credit (Required)</label>
+            <input type="text" id="cmsPhotoCredit" placeholder="Photographer or artist credit">
+          </div>
+          <div class="form-group">
+            <label>Licence (Required)</label>
+            <input type="text" id="cmsPhotoLicense" placeholder="CC0 / CC BY / Original Work">
+          </div>
+          <div class="form-group">
+            <label>Source Link (Required)</label>
+            <input type="url" id="cmsPhotoSource" placeholder="https://...">
+          </div>
+        </div>
+        <label class="perm-item" style="margin-bottom:10px;">
+          <input type="checkbox" id="cmsNoFiguresConfirm">
+          <span>I confirm this image contains NO faces or human figures of the Prophet ﷺ, Imams (a.s.), or Ahlul Bayt (a.s.).</span>
+        </label>
+        <button class="btn btn-approve" onclick="compressAndSavePhoto()">Compress to WebP (&le;250 KB) &amp; Save to Firestore</button>
+        <div id="cmsMediaList" style="margin-top:12px;"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Global App Config &amp; Feature Switches (<code>config/app_config</code>)</div>
+            <div class="card-meta">Changes bump <code>contentVersion</code> so Android clients refresh cached content within 1 minute.</div>
+          </div>
+        </div>
+        <div class="perm-grid" id="featureSwitchGrid">
+          <label class="perm-item"><input type="checkbox" id="cfg_rishta" checked> <span>Enable Rishta Matrimonial</span></label>
+          <label class="perm-item"><input type="checkbox" id="cfg_bazaar" checked> <span>Enable Community Bazaar</span></label>
+          <label class="perm-item"><input type="checkbox" id="cfg_people" checked> <span>Enable Scholars Directory</span></label>
+          <label class="perm-item"><input type="checkbox" id="cfg_masjids" checked> <span>Enable Masjids Directory</span></label>
+          <label class="perm-item"><input type="checkbox" id="cfg_videos" checked> <span>Enable Videos &amp; Audio</span></label>
+          <label class="perm-item"><input type="checkbox" id="cfg_caravans" checked> <span>Enable Ziyarat Caravans Directory</span></label>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Default Hijri Day Shift (-2 to +2)</label>
+            <input type="number" id="cfgHijriShift" min="-2" max="2" value="0">
+          </div>
+          <div class="form-group">
+            <label>Default Sehri Minutes</label>
+            <input type="number" id="cfgSehriMins" min="0" max="30" value="10">
+          </div>
+          <div class="form-group">
+            <label>Minimum App Version</label>
+            <input type="text" id="cfgMinVersion" value="1.0.0">
+          </div>
+          <div class="form-group">
+            <label>Maintenance Notice (Blank = Normal)</label>
+            <input type="text" id="cfgMaintenance" placeholder="Optional maintenance banner">
+          </div>
+          <div class="form-group">
+            <label>Announcement Banner Title</label>
+            <input type="text" id="cfgBannerTitle" placeholder="Announcement title">
+          </div>
+          <div class="form-group">
+            <label>Announcement Banner Text</label>
+            <input type="text" id="cfgBannerText" placeholder="Short community announcement">
+          </div>
+          <div class="form-group">
+            <label>App Download Link (Share App Footer)</label>
+            <input type="url" id="cfgDownloadUrl" placeholder="https://play.google.com/store/apps/details?id=com.salam.momineen">
+          </div>
+          <div class="form-group">
+            <label>Share This App Message (Urdu)</label>
+            <input type="text" id="cfgShareMsgUr" placeholder="Custom Urdu share message (optional)">
+          </div>
+          <div class="form-group">
+            <label>Share This App Message (Hindi)</label>
+            <input type="text" id="cfgShareMsgHi" placeholder="Custom Hindi share message (optional)">
+          </div>
+          <div class="form-group">
+            <label>Share This App Message (English)</label>
+            <input type="text" id="cfgShareMsgEn" placeholder="Custom English share message (optional)">
+          </div>
+        </div>
+        <button class="btn btn-approve" onclick="saveAppConfig()">Save App Config &amp; Bump Content Version</button>
+      </div>
+    </div>
+
+    <!-- 9d. BACKUP & RESTORE JSON (STAGE 6 — SUPER ADMIN ONLY) -->
+    <div id="sec-backup" class="tab-section" style="display: none;">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Database JSON Backup &amp; Restore (Spark Plan Free Backup)</div>
+            <div class="card-meta">Export all collections (`admins`, `bazaar_listings`, `rishta_profiles`, `personalities`, `masjids`, `caravans`, `videos`, `cms_slides`, `config`, `audit_logs`, `edit_logs`) to a local `.json` file or restore from `.json`.</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+          <button class="btn btn-approve" onclick="exportBackupJson()">⬇ Export All Collections to JSON</button>
+          <label class="btn btn-outline" style="cursor:pointer;">
+            ⬆ Import Collections from JSON
+            <input type="file" accept="application/json" style="display:none;" onchange="importBackupJson(event)">
+          </label>
+        </div>
+      </div>
+
+      <div class="card" style="border-top: 3px solid var(--danger);">
+        <div class="card-header">
+          <div>
+            <div class="card-title" style="color: var(--danger);">🧹 Scan &amp; Clean Live Firestore Sample Data (Super Admin Only)</div>
+            <div class="card-meta">Scans live Firestore collections (<code>videos</code>, <code>bazaar_listings</code>, <code>rishta_profiles</code>, <code>rishta_private</code>, <code>rishta_interests</code>, <code>personalities</code>, <code>masjids</code>, <code>caravans</code>, <code>caravan_private</code>, <code>reports</code>, <code>users</code>, <code>cms_slides</code>, <code>config</code>) ONLY for clearly recognizable sample markers (<code>@example.com</code>, <code>watch?v=example1</code>, <code>bz_1/bz_2/vd_1/rs_1/usr_101/b1-b5/p-1-p-4</code>, sample phones, <code>isSample/isDemo/isMock</code>). Real user documents and <code>admins/*</code> are never touched.</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:12px;">
+          <button class="btn btn-outline" onclick="scanFirestoreSampleData()">🔍 Scan Live Firestore for Sample Docs</button>
+          <button class="btn btn-reject" id="btnDeleteScannedSamples" onclick="deleteScannedSampleData()" style="display:none;">🗑 Delete Confirmed Sample Docs Only</button>
+        </div>
+        <div id="sampleCleanupReport" style="font-size:0.86rem;color:var(--text-muted);">Tap "Scan Live Firestore for Sample Docs" to inspect live collections.</div>
+      </div>
+    </div>
+
+    <!-- 10. IMMUTABLE AUDIT LOG & EDIT LOGS (Super Admin ONLY — Read-Only, No Edit/Delete) -->
+    <div id="sec-audit" class="tab-section" style="display: none;">
+      <div class="card">
+        <div class="notice-banner" id="lbl-audit-immutable-notice">
+          یہ ریکارڈ صرف سپر ایڈمن دیکھ سکتا ہے۔ کوئی بھی اسے بدل یا مٹا نہیں سکتا۔
+        </div>
+        <div class="card-header">
+          <div class="card-title" id="lbl-sec-audit">آڈٹ لاگ (ریکارڈ)</div>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>UTC Timestamp</th>
+              <th>Who (Admin Email / UID)</th>
+              <th>What (Action)</th>
+              <th>Which Record (Collection / ID)</th>
+              <th>Details / Old &rarr; New Value</th>
+            </tr>
+          </thead>
+          <tbody id="auditTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Official Firebase Modular Web SDK v10.14.1 (Spark Plan: Auth & Named Firestore Database) -->
+  <script type="module">
+    import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+    import {
+      getAuth,
+      GoogleAuthProvider,
+      signInWithPopup,
+      signInWithRedirect,
+      getRedirectResult,
+      signOut,
+      onAuthStateChanged,
+      reauthenticateWithPopup,
+      reauthenticateWithRedirect
+    } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+    import {
+      initializeFirestore,
+      getFirestore,
+      persistentLocalCache,
+      persistentMultipleTabManager,
+      doc,
+      collection,
+      getDoc,
+      getDocFromServer,
+      getDocs,
+      setDoc,
+      updateDoc,
+      deleteDoc,
+      addDoc,
+      query,
+      orderBy,
+      limit,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+    // =========================================================================
+    // 0. Real Firebase Initialization (Free Spark Plan)
+    // =========================================================================
+    const FIREBASE_PROJECT_ID = "gen-lang-client-0759472098";
+    const FIREBASE_DATABASE_ID = "ai-studio-android-safinaja-c2c730c2-5fab-4c83-b8fd-f4801e7a9aba";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBxJixnbe-A0FRksmyPUuJWCOzfwCg_Bo8",
+      authDomain: "gen-lang-client-0759472098.firebaseapp.com",
+      projectId: FIREBASE_PROJECT_ID,
+      storageBucket: "gen-lang-client-0759472098.firebasestorage.app",
+      messagingSenderId: "1028805214964",
+      appId: "1:1028805214964:android:e303e20b4deabf156014a1"
+    };
+
+    const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    // Named Firestore database from firebase_applet_config.xml
+    let namedDb;
+    try {
+      namedDb = initializeFirestore(
+        app,
+        {
+          localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() }),
+          experimentalAutoDetectLongPolling: true
+        },
+        FIREBASE_DATABASE_ID
+      );
+    } catch (_) {
+      namedDb = getFirestore(app, FIREBASE_DATABASE_ID);
+    }
+
+    let defaultDb;
+    try {
+      defaultDb = initializeFirestore(
+        app,
+        { experimentalAutoDetectLongPolling: true },
+        "(default)"
+      );
+    } catch (_) {
+      defaultDb = getFirestore(app);
+    }
+
+    let db = namedDb;
+    let activeDatabaseId = FIREBASE_DATABASE_ID;
+
+    const APPROVED_SUPER_ADMIN_EMAIL = "hasan110abbas@gmail.com";
+
+    // =========================================================================
+    // 1. HTML Escaping (Never render unescaped user text)
+    // =========================================================================
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function maskPhone(phone) {
+      if (!phone) return '••••••';
+      const cleaned = String(phone).trim();
+      if (cleaned.length <= 4) return '••••';
+      return '+91 ••••• ••' + escapeHtml(cleaned.slice(-3));
+    }
+
+    const ALL_PERMS = [
+      'bazaar',
+      'directory_people',
+      'directory_masjid',
+      'caravans',
+      'videos',
+      'rishta_review',
+      'rishta_contacts',
+      'content',
+      'config',
+      'reports',
+      'users_view'
+    ];
+
+    const SESSION_LIMIT_MS = 8 * 60 * 60 * 1000; // 8 hours
+    const REAUTH_LIMIT_MS = 5 * 60 * 1000;      // 5 minutes
+
+    const I18N = {
+      ur: {
+        app_title: "سلام مومنین — ایڈمن کنٹرول سینٹر",
+        isolated_badge: "الگ ایڈمن ایپ (Spark Plan)",
+        not_allowed_title: "اجازت نہیں ہے (Not allowed)",
+        not_allowed_desc: "یہ ایپ صرف منظور شدہ منتظمین کے لیے ہے۔ آپ کے اکاؤنٹ کو رسائی حاصل نہیں ہے۔",
+        sign_in_google: "گوگل سے سائن ان کریں",
+        sign_out: "سائن آؤٹ (Sign Out)",
+        reauth_btn: "دوبارہ تصدیق کریں (Re-sign in)",
+        reauth_prompt: "حساس کام (ایڈمن شامل کرنا یا سرپرست کا نمبر دیکھنا) کے لیے دوبارہ گوگل سائن ان کی تصدیق ضروری ہے۔",
+        reauth_active: "حساس کارروائی کی تصدیق فعال ہے (5 منٹ)",
+        reauth_needed: "حساس کاموں کے لیے دوبارہ سائن ان درکار ہے",
+        session_timer: "سیشن کی مدت: زیادہ سے زیادہ 8 گھنٹے",
+        role_super_admin: "سپر ایڈمن (مالک)",
+        role_sub_admin: "سب ایڈمن (معاون)",
+        scope_all: "تمام ریاستیں اور شہر",
+        scope_limited: "محدود علاقہ",
+        expiry_none: "کوئی مدت ختم ہونے کی تاریخ نہیں",
+        expiry_label: "رسائی ختم ہونے کی تاریخ",
+        tab_admins: "ایڈمنز کا انتظام",
+        tab_bazaar: "بازار",
+        tab_people: "شخصیات",
+        tab_masjids: "مساجد و امام بارگاہ",
+        tab_caravans: "زیارت قافلے",
+        tab_videos: "ویڈیوز",
+        tab_rishta_review: "رشتہ جائزہ",
+        tab_rishta_contacts: "رشتہ نمبرز و باہمی پسند",
+        tab_reports: "شکایات",
+        tab_users: "صارفین کی فہرست",
+        tab_audit: "آڈٹ اور ترمیمی لاگ",
+        perm_bazaar: "بازار (اشیاء منظور/مسترد/ترمیم/حذف کریں)",
+        perm_directory_people: "شخصیات ڈائریکٹری",
+        perm_directory_masjid: "مساجد و امام بارگاہ ڈائریکٹری",
+        perm_caravans: "زیارت قافلے (قافلے منظور/مسترد/ترمیم/حذف)",
+        perm_videos: "ویڈیوز (شامل اور منظور کریں)",
+        perm_rishta_review: "رشتہ جائزہ (پروفائل منظور/مسترد؛ سرپرست کا نمبر نہیں دکھتا)",
+        perm_rishta_contacts: "رشتہ رابطہ نمبرز اور باہمی پسند (صرف خاص ضرورت پر دیں)",
+        perm_content: "مواد اور ہوم سلائیڈز (CMS Content)",
+        perm_config: "ایپ کنفیگریشن اور فیچر سوئچز (App Config)",
+        perm_reports: "شکایات کا ازالہ",
+        perm_users_view: "صارفین کی فہرست اور بین/ان بین",
+        add_admin_title: "نیا سب ایڈمن شامل کریں",
+        admin_email_label: "گوگل ای میل درج کریں",
+        admin_state_label: "ریاست تک محدود کریں (اختیاری)",
+        admin_city_label: "شہر تک محدود کریں (اختیاری)",
+        admin_expiry_label: "آخری تاریخ (اختیاری)",
+        admin_perms_label: "اختیارات منتخب کریں",
+        save_admin_btn: "ایڈمن محفوظ کریں",
+        edit_perms_btn: "اختیارات بدلیں",
+        disable_btn: "غیر فعال کریں",
+        enable_btn: "فعال کریں",
+        remove_btn: "ہٹا دیں",
+        approve_btn: "منظور کریں",
+        reject_btn: "مسترد کریں",
+        delete_btn: "حذف کریں",
+        dismiss_btn: "خارج کریں",
+        takedown_btn: "ہٹا دیں",
+        reveal_phone_btn: "نمبر دکھائیں (دوبارہ تصدیق + ریکارڈ ہوگا)",
+        phone_hidden_notice: "رشتہ جائزہ میں سرپرست کا نمبر پوشیدہ ہے",
+        audit_immutable_notice: "یہ ریکارڈ صرف سپر ایڈمن دیکھ سکتا ہے۔ کوئی بھی اسے بدل یا مٹا نہیں سکتا۔",
+        users_privacy_notice: "صارفین کے ذاتی فون نمبرز یہاں نہیں دکھائے جاتے۔ ایڈمن صارف کو بین/ان بین کر سکتا ہے۔",
+        status_active: "فعال",
+        status_disabled: "غیر فعال",
+        status_pending: "زیر التواء",
+        status_approved: "منظور شدہ",
+        status_rejected: "مسترد شدہ",
+        add_video_title: "نئی ویڈیو شامل کریں",
+        no_records: "ابھی تک کچھ نہیں ہے۔",
+        sim_role_label: "منتظم اکاؤنٹ:"
+      },
+      hi: {
+        app_title: "सलाम मोमिनीन — एडमिन कंट्रोल सेंटर",
+        isolated_badge: "अलग एडमिन ऐप (Spark Plan)",
+        not_allowed_title: "अनुमति नहीं है (Not allowed)",
+        not_allowed_desc: "यह ऐप केवल अधिकृत एडमिन के लिए है। आपके खाते को अनुमति नहीं है।",
+        sign_in_google: "गूगल से साइन इन करें",
+        sign_out: "साइन आउट (Sign Out)",
+        reauth_btn: "दोबारा पुष्टि करें (Re-sign in)",
+        reauth_prompt: "संवेदनशील कार्य के लिए दोबारा साइन-इन आवश्यक है।",
+        reauth_active: "संवेदनशील कार्य पुष्टि सक्रिय है (5 मिनट)",
+        reauth_needed: "संवेदनशील कार्यों के लिए दोबारा साइन-इन आवश्यक",
+        session_timer: "सत्र समय सीमा: अधिकतम 8 घंटे",
+        role_super_admin: "सुपर एडमिन (मालिक)",
+        role_sub_admin: "सब-एडमिन (मॉडरेटर)",
+        scope_all: "सभी राज्य और शहर",
+        scope_limited: "सीमित क्षेत्र",
+        expiry_none: "कोई समाप्ति तिथि नहीं",
+        expiry_label: "समाप्ति तिथि",
+        tab_admins: "एडमिन प्रबंधन",
+        tab_bazaar: "बाज़ार",
+        tab_people: "शख़्सियात",
+        tab_masjids: "मस्जिद व इमामबारगाह",
+        tab_caravans: "ज़ियारत क़ाफ़िले",
+        tab_videos: "वीडियो",
+        tab_rishta_review: "रिश्ता समीक्षा",
+        tab_rishta_contacts: "रिश्ता नंबर व आपसी पसंद",
+        tab_reports: "शिकायतें",
+        tab_users: "यूज़र सूची",
+        tab_audit: "ऑडिट व एडिट लॉग",
+        perm_bazaar: "बाज़ार (सामान मंज़ूर/अस्वीकार/संपादित/हटाएँ)",
+        perm_directory_people: "शख़्सियात डायरेक्टरी",
+        perm_directory_masjid: "मस्जिद व इमामबारगाह डायरेक्टरी",
+        perm_caravans: "ज़ियारत क़ाफ़िले (मंज़ूर/अस्वीकार/संपादित/हटाएँ)",
+        perm_videos: "वीडियो (जोड़ें और मंज़ूर करें)",
+        perm_rishta_review: "रिश्ता समीक्षा (अभिभावक नंबर नहीं दिखता)",
+        perm_rishta_contacts: "रिश्ता संपर्क नंबर और आपसी पसंद",
+        perm_content: "होम स्लाइड और मीडिया (CMS Content)",
+        perm_config: "ऐप कॉन्फ़िग और फ़ीचर स्विच (App Config)",
+        perm_reports: "शिकायतों का निपटारा",
+        perm_users_view: "यूज़र सूची और बैन/अनबैन",
+        add_admin_title: "नया सब-एडमिन जोड़ें",
+        admin_email_label: "गूगल ईमेल दर्ज करें",
+        admin_state_label: "राज्य तक सीमित करें (वैकल्पिक)",
+        admin_city_label: "शहर तक सीमित करें (वैकल्पिक)",
+        admin_expiry_label: "अंतिम तिथि (वैकल्पिक)",
+        admin_perms_label: "अधिकार चुनें",
+        save_admin_btn: "एडमिन सेव करें",
+        edit_perms_btn: "अधिकार बदलें",
+        disable_btn: "निष्क्रिय करें",
+        enable_btn: "सक्रिय करें",
+        remove_btn: "हटाएँ",
+        approve_btn: "मंज़ूर करें",
+        reject_btn: "अस्वीकार करें",
+        delete_btn: "हटाएँ",
+        dismiss_btn: "ख़ारिज करें",
+        takedown_btn: "हटा दें",
+        reveal_phone_btn: "नंबर दिखाएँ (लॉग होगा)",
+        phone_hidden_notice: "रिश्ता समीक्षा में अभिभावक का फ़ोन नंबर छुपाया गया है",
+        audit_immutable_notice: "यह लॉग केवल सुपर एडमिन देख सकता है। कोई भी इसे बदल या मिटा नहीं सकता।",
+        users_privacy_notice: "यूज़र्स के निजी फ़ोन नंबर यहाँ नहीं दिखाए जाते।",
+        status_active: "सक्रिय",
+        status_disabled: "निष्क्रिय",
+        status_pending: "लंबित",
+        status_approved: "स्वीकृत",
+        status_rejected: "अस्वीकृत",
+        add_video_title: "नया वीडियो जोड़ें",
+        no_records: "अभी तक कुछ नहीं है।",
+        sim_role_label: "एडमिन खाता:"
+      },
+      en: {
+        app_title: "Salam Momineen — Admin Control Centre",
+        isolated_badge: "Separate Admin App (Spark Plan)",
+        not_allowed_title: "Not allowed",
+        not_allowed_desc: "This portal is restricted to authorized administrators only. Your account does not have an admin role in admins/{uid}.",
+        sign_in_google: "Sign in with Google",
+        sign_out: "Sign Out",
+        reauth_btn: "Re-sign in for sensitive actions",
+        reauth_prompt: "Sensitive actions (adding/changing admins or revealing guardian phone numbers) require re-confirming your credentials.",
+        reauth_active: "Step-up re-sign-in active (5 min window)",
+        reauth_needed: "Re-sign-in required for sensitive actions",
+        session_timer: "Session limit: expires after 8 hours",
+        role_super_admin: "Super Admin (Owner)",
+        role_sub_admin: "Sub-Admin (Moderator)",
+        scope_all: "All States & Cities",
+        scope_limited: "Scoped Region",
+        expiry_none: "No expiry date",
+        expiry_label: "Expires on",
+        tab_admins: "Manage Admins",
+        tab_bazaar: "Bazaar",
+        tab_people: "Personalities",
+        tab_masjids: "Masjids & Imambargahs",
+        tab_caravans: "Caravans",
+        tab_videos: "Videos",
+        tab_rishta_review: "Rishta Review",
+        tab_rishta_contacts: "Rishta Contacts & Matches",
+        tab_reports: "Reports",
+        tab_users: "Users List",
+        tab_audit: "Audit & Edit Logs",
+        perm_bazaar: "bazaar (approve/reject/edit/remove items)",
+        perm_directory_people: "people (scholars/personalities directory)",
+        perm_directory_masjid: "masjids (masjids/imambargahs directory)",
+        perm_caravans: "caravans (approve/reject/edit/remove/ban caravans)",
+        perm_videos: "videos (add/approve/remove videos)",
+        perm_rishta_review: "rishta_review (approve/reject profiles; NO guardian phone numbers)",
+        perm_rishta_contacts: "rishta_contacts (guardian numbers & mutual matches; give very rarely)",
+        perm_content: "content (CMS slides, wallpapers, occasions, WebP photos)",
+        perm_config: "config (feature switches, Hijri shift default, maintenance notice)",
+        perm_reports: "reports (handle complaints)",
+        perm_users_view: "users (view users, ban/unban, delete content)",
+        add_admin_title: "Add or Update Sub-Admin (admins/{uid})",
+        admin_email_label: "Google Account Email",
+        admin_state_label: "Limit to State (optional)",
+        admin_city_label: "Limit to City (optional)",
+        admin_expiry_label: "Expiry Date (optional)",
+        admin_perms_label: "Tick Permissions for Sub-Admin",
+        save_admin_btn: "Save Admin to admins/{uid}",
+        edit_perms_btn: "Edit Permissions",
+        disable_btn: "Disable",
+        enable_btn: "Enable",
+        remove_btn: "Remove",
+        approve_btn: "Approve",
+        reject_btn: "Reject (with Reason)",
+        delete_btn: "Remove",
+        dismiss_btn: "Dismiss",
+        takedown_btn: "Take Down Target",
+        reveal_phone_btn: "Reveal (Re-confirm & Log)",
+        phone_hidden_notice: "Hidden (rishta_review has no phone access — stored in rishta_private/{id})",
+        audit_immutable_notice: "Append-only admin_audit_logs & edit_logs. Enforced by Firestore rules (allow update, delete: if false).",
+        users_privacy_notice: "Personal phone numbers are excluded. Admins with users permission can Ban/Unban or delete user content on request.",
+        status_active: "Active",
+        status_disabled: "Disabled",
+        status_pending: "Pending",
+        status_approved: "Approved",
+        status_rejected: "Rejected",
+        add_video_title: "Add Approved Video",
+        no_records: "Nothing yet.",
+        sim_role_label: "Signed-In Admin Account:"
+      }
+    };
+
+    let currentLang = 'ur';
+    function t(key) {
+      return (I18N[currentLang] && I18N[currentLang][key]) || I18N.en[key] || key;
+    }
+
+    // Normalized role helpers (exact parity with firestore.rules, case-insensitive)
+    // Accepted Super Admin roles: "SUPER_ADMIN", "super_admin", "super", "SUPER" (any case)
+    // Accepted Sub-Admin roles:   "SUB_ADMIN", "sub_admin", "sub", "SUB" (any case)
+    function normalizeAdminRole(roleVal) {
+      if (typeof roleVal !== 'string') return null;
+      const lower = roleVal.trim().toLowerCase();
+      if (lower === 'super_admin' || lower === 'super') return 'SUPER_ADMIN';
+      if (lower === 'sub_admin' || lower === 'sub') return 'SUB_ADMIN';
+      return null;
+    }
+
+    function isSuperAdminRole(roleVal) {
+      return normalizeAdminRole(roleVal) === 'SUPER_ADMIN';
+    }
+
+    function isSubAdminRole(roleVal) {
+      return normalizeAdminRole(roleVal) === 'SUB_ADMIN';
+    }
+
+    function isValidAdminRole(roleVal) {
+      return normalizeAdminRole(roleVal) !== null;
+    }
+
+    // =========================================================================
+    // 3. Serverless Firestore State (`admins/{uid}` + Collections)
+    // =========================================================================
+    const state = {
+      currentUser: null,
+      currentAdminDoc: null,
+      isCheckingAuth: true,
+      bootstrapNeeded: false,
+      lastLookupDiagnostic: 'not checked yet',
+      sessionStartedAtMs: Date.now(),
+      reauthConfirmedAtMs: Date.now(),
+      activeTab: 'dashboard',
+      revealedPhones: {},
+
+      appConfig: {
+        rishtaEnabled: true,
+        bazaarEnabled: true,
+        peopleEnabled: true,
+        masjidsEnabled: true,
+        videosEnabled: true,
+        caravansEnabled: true,
+        appDownloadUrl: 'https://play.google.com/store/apps/details?id=com.salam.momineen',
+        appShareMessageUr: '',
+        appShareMessageHi: '',
+        appShareMessageEn: '',
+        hijriDayShiftDefault: 0,
+        sehriMinutesDefault: 10,
+        minAppVersion: '1.0.0',
+        maintenanceMessage: '',
+        announcementBannerTitle: '',
+        announcementBannerText: '',
+        contentVersion: 1
+      },
+
+      media: [],
+      admins: [],
+      bazaar: [],
+      people: [],
+      masjids: [],
+      caravans: [],
+      videos: [],
+      rishtaProfiles: [],
+      rishtaMatches: [],
+      reports: [],
+      users: [],
+      slides: [],
+      auditLogs: [],
+      scannedSampleMatches: []
+    };
+
+    // Append-only Audit & Edit Logger
+    function appendAuditLog(action, collection, recordId, details) {
+      const admin = getCurrentAdminRecord();
+      if (!admin) return;
+      const entry = Object.freeze({
+        ts: new Date().toISOString().replace('T', ' ').slice(0, 19) + ' UTC',
+        actor: `${admin.email} (${admin.uid})`,
+        action,
+        record: `${collection} / ${recordId}`,
+        details
+      });
+      state.auditLogs.unshift(entry);
+
+      // Try appending to Firestore admin_audit_logs if live
+      try {
+        addDoc(collection(db, "admin_audit_logs"), {
+          adminUid: admin.uid,
+          actor: admin.email,
+          action: action,
+          collection: collection,
+          recordId: recordId,
+          details: details,
+          timestamp: serverTimestamp()
+        }).catch(err => {
+          console.warn("Audit log background write:", err.message);
+        });
+      } catch (_) {}
+    }
+
+    function getCurrentAdminRecord() {
+      const now = Date.now();
+      if (now - state.sessionStartedAtMs > SESSION_LIMIT_MS) {
+        return null;
+      }
+      const rec = state.currentAdminDoc;
+      if (!rec || rec.disabled || !isValidAdminRole(rec.role)) return null;
+      if (rec.expiresAt && (typeof rec.expiresAt === 'number' ? rec.expiresAt : new Date(rec.expiresAt).getTime()) <= now) {
+        return null;
+      }
+      return rec;
+    }
+
+    function hasPermission(admin, perm) {
+      if (!admin) return false;
+      if (isSuperAdminRole(admin.role)) return true;
+      return Boolean(admin.perms && admin.perms[perm] === true);
+    }
+
+    function matchesGeographicScope(admin, item) {
+      if (!admin || isSuperAdminRole(admin.role)) return true;
+      const itemState = item.state || item.departureState || '';
+      if (admin.allowedState && itemState && itemState.toLowerCase() !== admin.allowedState.toLowerCase()) {
+        return false;
+      }
+      const itemCity = item.city || item.villageTown || item.departureCity || '';
+      if (admin.allowedCity && itemCity && itemCity.toLowerCase() !== admin.allowedCity.toLowerCase()) {
+        return false;
+      }
+      return true;
+    }
+
+    function isReauthFresh() {
+      return (Date.now() - state.reauthConfirmedAtMs) <= REAUTH_LIMIT_MS;
+    }
+
+    function requireFreshReauth() {
+      if (!isReauthFresh()) {
+        alert(t('reauth_prompt'));
+        return false;
+      }
+      return true;
+    }
+
+    function showAuthNotice(htmlMessage, isError) {
+      const banner = document.getElementById('authNoticeBanner');
+      if (!banner) return;
+      banner.style.display = 'block';
+      banner.style.background = isError ? 'var(--danger-light)' : '#FFFBEB';
+      banner.style.borderColor = isError ? 'var(--danger)' : '#F59E0B';
+      banner.style.color = isError ? 'var(--danger)' : '#92400E';
+      banner.innerHTML = htmlMessage;
+    }
+
+    function handleAuthError(err) {
+      const code = (err && err.code) ? String(err.code) : '';
+      const msg = (err && err.message) ? String(err.message) : 'Authentication error';
+      const host = window.location.hostname || 'current-domain';
+
+      if (
+        code === 'auth/popup-blocked' ||
+        code === 'auth/operation-not-supported-in-this-environment' ||
+        code === 'auth/cancelled-popup-request'
+      ) {
+        showAuthNotice(
+          `<strong>⚠️ پاپ اپ بلاک ہو گیا ہے (Popup Blocked on Mobile Browser):</strong><br>` +
+          `آپ کے موبائل براؤزر نے گوگل سائن ان پاپ اپ ونڈو کو روک دیا ہے۔ اب خودکار طور پر <strong>ری ڈائریکٹ سائن ان (Redirect Sign-In)</strong> استعمال کیا جا رہا ہے...<br>` +
+          `<em>Your mobile browser blocked the Google Sign-In popup. Automatically redirecting to Google Sign-In now (or tap "Use Redirect Sign-In" below).</em>`,
+          false
+        );
+        const provider = new GoogleAuthProvider();
+        provider.setCustomParameters({ prompt: 'select_account' });
+        setTimeout(() => {
+          signInWithRedirect(auth, provider).catch(redirErr => {
+            showAuthNotice(`<strong>Redirect Sign-In Error:</strong> ${escapeHtml(redirErr.message)}`, true);
+          });
+        }, 900);
+        return;
+      }
+
+      if (code === 'auth/popup-closed-by-user') {
+        showAuthNotice(
+          `<strong>ℹ️ سائن ان ونڈو بند ہو گئی (Popup Closed / Blocked):</strong><br>` +
+          `اگر موبائل براؤزر پر پاپ اپ نہیں کھل رہا تو نیچے دیے گئے <strong>"موبائل براؤزر ری ڈائریکٹ سائن ان (Use Redirect Sign-In)"</strong> بٹن پر ٹیپ کریں۔`,
+          false
+        );
+        return;
+      }
+
+      if (code === 'auth/unauthorized-domain') {
+        showAuthNotice(
+          `<strong>🔒 ڈومین کی اجازت درکار ہے (Authorized Domain Required in Firebase Auth):</strong><br>` +
+          `موجودہ ڈومین <code>${escapeHtml(host)}</code> ابھی Firebase Authentication کے <strong>Authorized domains</strong> میں شامل نہیں ہے۔<br>` +
+          `1. Open <strong>Firebase Console &rarr; Authentication &rarr; Settings &rarr; Authorized domains</strong>.<br>` +
+          `2. Click <strong>Add domain</strong> and enter: <code>${escapeHtml(host)}</code>`,
+          true
+        );
+        return;
+      }
+
+      showAuthNotice(`<strong>Google Sign-In Error (${escapeHtml(code)}):</strong> ${escapeHtml(msg)}`, true);
+    }
+
+    function triggerStepUpReauth() {
+      if (!auth.currentUser) return;
+      const provider = new GoogleAuthProvider();
+      provider.setCustomParameters({ prompt: 'select_account' });
+      reauthenticateWithPopup(auth.currentUser, provider)
+        .then(() => {
+          state.reauthConfirmedAtMs = Date.now();
+          appendAuditLog('STEP_UP_REAUTH', 'admins', state.currentUser.email, 'Confirmed fresh credentials for sensitive actions');
+          renderAll();
+          alert('Credentials verified successfully. (5-minute window active)');
+        })
+        .catch(err => {
+          const code = (err && err.code) || '';
+          if (code === 'auth/popup-blocked' || code === 'auth/operation-not-supported-in-this-environment') {
+            alert('Popup blocked on mobile browser. Redirecting to Google to re-verify your credentials...');
+            reauthenticateWithRedirect(auth.currentUser, provider);
+          } else {
+            console.error("Step-up reauth failed:", err);
+            alert('Re-authentication cancelled or failed: ' + err.message);
+          }
+        });
+    }
+
+    // Google Sign-In Handler (Popup with Automatic Redirect Fallback for Mobile Browsers)
+    function handleGoogleSignIn(mode) {
+      const provider = new GoogleAuthProvider();
+      provider.setCustomParameters({ prompt: 'select_account' });
+
+      if (mode === 'redirect') {
+        showAuthNotice(
+          `<strong>🔄 گوگل ری ڈائریکٹ سائن ان (Redirecting to Google Sign-In...):</strong> براہ کرم اپنا گوگل اکاؤنٹ منتخب کریں۔`,
+          false
+        );
+        signInWithRedirect(auth, provider).catch(handleAuthError);
+        return;
+      }
+
+      signInWithPopup(auth, provider)
+        .then(() => {
+          const banner = document.getElementById('authNoticeBanner');
+          if (banner) banner.style.display = 'none';
+        })
+        .catch(handleAuthError);
+    }
+
+    // Process Mobile Redirect Result on Page Load
+    getRedirectResult(auth)
+      .then(result => {
+        if (result && result.user) {
+          state.reauthConfirmedAtMs = Date.now();
+        }
+      })
+      .catch(handleAuthError);
+
+    // Sign Out Handler
+    function handleSignOut() {
+      signOut(auth).then(() => {
+        state.currentUser = null;
+        state.currentAdminDoc = null;
+        state.bootstrapNeeded = false;
+        state.lastLookupDiagnostic = 'signed out';
+        renderAll();
+      });
+    }
+
+    // Copy UID helper for Console Bootstrap
+    function copyBootstrapUid() {
+      const txt = document.getElementById('txtBootstrapUid');
+      if (txt) {
+        txt.select();
+        txt.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(txt.value).then(() => {
+          alert("Firebase UID copied to clipboard: " + txt.value);
+        }).catch(() => {
+          alert("Please copy the UID manually: " + txt.value);
+        });
+      }
+    }
+
+    // Validate admin document fields consistently with firestore.rules
+    function diagnoseAdminDoc(data) {
+      if (!data || typeof data !== 'object') {
+        return { ok: false, reason: 'document not found' };
+      }
+      if (!('email' in data) || typeof data.email !== 'string' || !data.email.trim()) {
+        return { ok: false, reason: 'missing field email' };
+      }
+      if (!('role' in data) || typeof data.role !== 'string' || !data.role.trim()) {
+        return { ok: false, reason: 'missing field role' };
+      }
+      if (!('disabled' in data) || typeof data.disabled !== 'boolean') {
+        return { ok: false, reason: 'missing field disabled' };
+      }
+      if (data.disabled === true) {
+        return { ok: false, reason: 'disabled is true' };
+      }
+      const normalizedRole = normalizeAdminRole(data.role);
+      if (!normalizedRole) {
+        return { ok: false, reason: 'role not accepted' };
+      }
+      return { ok: true, normalizedRole, reason: 'valid (' + normalizedRole + ')' };
+    }
+
+    // Helper to fetch admins/{uid} from a specific Firestore instance (server first, cache fallback if offline)
+    async function fetchAdminDocFromDb(targetDb, uid, forceServer) {
+      const ref = doc(targetDb, "admins", uid);
+      try {
+        return forceServer ? await getDocFromServer(ref) : await getDoc(ref);
+      } catch (serverErr) {
+        const code = (serverErr && serverErr.code) ? String(serverErr.code) : '';
+        if (code === 'unavailable') {
+          return await getDoc(ref);
+        }
+        throw serverErr;
+      }
+    }
+
+    // Check admin document in Firestore (always hits server first when refreshing)
+    async function checkAdminStatus(forceServer = true) {
+      if (!state.currentUser) return;
+      const uid = state.currentUser.uid;
+      const email = (state.currentUser.email || '').trim().toLowerCase();
+      const isApprovedOwner = email === APPROVED_SUPER_ADMIN_EMAIL.toLowerCase();
+      const statusTag = document.getElementById('lbl-auth-status');
+      if (statusTag) {
+        statusTag.textContent = "Checking Firestore admins/" + uid.slice(0, 6) + "...";
+        statusTag.className = "tag tag-pending";
+      }
+      state.lastLookupDiagnostic = 'checking server...';
+      renderAll();
+
+      try {
+        let docSnap = null;
+        let primaryDiag = null;
+
+        try {
+          docSnap = await fetchAdminDocFromDb(namedDb, uid, forceServer);
+          if (docSnap.exists()) {
+            db = namedDb;
+            activeDatabaseId = FIREBASE_DATABASE_ID;
+          } else {
+            primaryDiag = 'document not found';
+          }
+        } catch (namedErr) {
+          const code = (namedErr && namedErr.code) ? String(namedErr.code) : '';
+          primaryDiag = code === 'permission-denied' ? 'permission denied by rules' : (code || 'error');
+        }
+
+        // If not found in named database, also check (default) in case the document was created there in Console
+        if (!docSnap || !docSnap.exists()) {
+          try {
+            const fallbackSnap = await fetchAdminDocFromDb(defaultDb, uid, forceServer);
+            if (fallbackSnap && fallbackSnap.exists()) {
+              docSnap = fallbackSnap;
+              db = defaultDb;
+              activeDatabaseId = "(default)";
+            }
+          } catch (_) {
+            // Keep primaryDiag from namedDb
+          }
+        }
+
+        if (docSnap && docSnap.exists()) {
+          const data = docSnap.data();
+          const diag = diagnoseAdminDoc(data);
+          state.lastLookupDiagnostic = diag.reason;
+
+          if (diag.ok) {
+            state.currentAdminDoc = {
+              uid: uid,
+              email: (data.email || state.currentUser.email || '').trim(),
+              role: diag.normalizedRole,
+              rawRole: data.role,
+              isLastSuperAdmin: Boolean(data.isLastSuperAdmin),
+              perms: data.perms || data.permissions || {},
+              allowedState: data.allowedState || null,
+              allowedCity: data.allowedCity || null,
+              expiresAt: data.expiresAt || null,
+              disabled: Boolean(data.disabled)
+            };
+            state.bootstrapNeeded = false;
+            loadLiveAdminData();
+          } else {
+            state.currentAdminDoc = null;
+            state.bootstrapNeeded = isApprovedOwner;
+          }
+        } else {
+          state.currentAdminDoc = null;
+          state.lastLookupDiagnostic = primaryDiag || 'document not found';
+          state.bootstrapNeeded = isApprovedOwner;
+        }
+      } catch (err) {
+        const errCode = (err && err.code) ? String(err.code) : '';
+        console.warn("Firestore admins lookup error:", errCode, err && err.message);
+        state.currentAdminDoc = null;
+        if (errCode === 'permission-denied') {
+          state.lastLookupDiagnostic = 'permission denied by rules';
+        } else {
+          state.lastLookupDiagnostic = errCode ? `firestore error (${errCode})` : (err && err.message ? err.message : 'lookup failed');
+        }
+        state.bootstrapNeeded = isApprovedOwner;
+      }
+
+      state.isCheckingAuth = false;
+      renderAll();
+    }
+
+    // Load Live Admin Data from Firestore
+    function loadLiveAdminData() {
+      const admin = state.currentAdminDoc;
+      if (!admin) return;
+
+      const isSuper = isSuperAdminRole(admin.role);
+
+      if (isSuper) {
+        getDocs(collection(db, "admins")).then(snap => {
+          state.admins = snap.docs.map(d => ({ uid: d.id, ...d.data() }));
+          renderAll();
+        }).catch(err => console.warn("Load admins:", err.message));
+
+        getDocs(query(collection(db, "admin_audit_logs"), orderBy("timestamp", "desc"), limit(50))).then(snap => {
+          state.auditLogs = snap.docs.map(d => {
+            const dt = d.data();
+            const dateStr = dt.timestamp && dt.timestamp.toDate ? dt.timestamp.toDate().toISOString().replace('T', ' ').slice(0, 19) + ' UTC' : '—';
+            return {
+              ts: dateStr,
+              actor: dt.actor || dt.adminUid || '—',
+              action: dt.action || '—',
+              record: `${dt.collection || '—'} / ${dt.recordId || '—'}`,
+              details: dt.details || ''
+            };
+          });
+          renderAll();
+        }).catch(err => console.warn("Load audit logs:", err.message));
+      }
+
+      if (hasPermission(admin, 'bazaar')) {
+        getDocs(collection(db, "bazaar_listings")).then(snap => {
+          state.bazaar = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+          renderAll();
+        }).catch(err => console.warn("Load bazaar:", err.message));
+      }
+
+      if (hasPermission(admin, 'directory_people') || hasPermission(admin, 'people')) {
+        getDocs(collection(db, "personalities")).then(snap => {
+          state.people = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+          renderAll();
+        }).catch(err => console.warn("Load personalities:", err.message));
+      }
+
+      if (hasPermission(admin, 'directory_masjid') || hasPermission(admin, 'masjids')) {
+        getDocs(collection(db, "masjids")).then(snap => {
+          state.masjids = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+          renderAll();
+        }).catch(err => console.warn("Load masjids:", err.message));
+      }
+
+      if (hasPermission(admin, 'caravans')) {
+        getDocs(collection(db, "caravans")).then(snap => {
+          state.caravans = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+          renderAll();
+        }).catch(err => console.warn("Load caravans:", err.message));
+      }
+
+      if (hasPermission(admin, 'videos')) {
+        getDocs(collection(db, "videos")).then(snap => {
+          state.videos = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+          renderAll();
+        }).catch(err => console.warn("Load videos:", err.message));
+      }
+
+      if (hasPermission(admin, 'rishta_review') || hasPermission(admin, 'rishta_contacts')) {
+        getDocs(collection(db, "rishta_profiles")).then(snap => {
+          state.rishtaProfiles = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+          if (hasPermission(admin, 'rishta_contacts')) {
+            getDocs(collection(db, "rishta_private")).then(privSnap => {
+              const privMap = {};
+              privSnap.docs.forEach(pd => { privMap[pd.id] = pd.data(); });
+              state.rishtaProfiles = state.rishtaProfiles.map(p => ({
+                ...p,
+                guardianName: (privMap[p.id] && privMap[p.id].guardianName) || p.guardianName || '',
+                guardianPhone: (privMap[p.id] && privMap[p.id].guardianPhone) || ''
+              }));
+              renderAll();
+            }).catch(err => console.warn("Load rishta_private:", err.message));
+          }
+          renderAll();
+        }).catch(err => console.warn("Load rishta_profiles:", err.message));
+      }
+
+      if (hasPermission(admin, 'rishta_contacts')) {
+        getDocs(collection(db, "rishta_interests")).then(snap => {
+          state.rishtaMatches = snap.docs.map(d => ({
+            id: d.id,
+            fromProfile: d.data().fromUserId || d.data().fromProfile || '—',
+            toProfile: d.data().toUserId || d.data().toProfile || '—',
+            status: d.data().status || 'PENDING'
+          }));
+          renderAll();
+        }).catch(err => console.warn("Load rishta_interests:", err.message));
+      }
+
+      if (hasPermission(admin, 'reports')) {
+        getDocs(collection(db, "reports")).then(snap => {
+          state.reports = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+          renderAll();
+        }).catch(err => console.warn("Load reports:", err.message));
+      }
+
+      if (hasPermission(admin, 'users_view') || hasPermission(admin, 'users')) {
+        getDocs(collection(db, "users")).then(snap => {
+          state.users = snap.docs.map(d => ({ uid: d.id, ...d.data() }));
+          renderAll();
+        }).catch(err => console.warn("Load users:", err.message));
+      }
+
+      if (hasPermission(admin, 'content') || isSuper) {
+        getDocs(collection(db, "cms_slides")).then(snap => {
+          state.slides = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+          renderAll();
+        }).catch(err => console.warn("Load cms_slides:", err.message));
+
+        getDocs(collection(db, "media")).then(snap => {
+          state.media = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+          renderAll();
+        }).catch(err => console.warn("Load media:", err.message));
+      }
+
+      if (hasPermission(admin, 'config') || hasPermission(admin, 'content') || isSuper) {
+        getDoc(doc(db, "config", "app_config")).then(cfgSnap => {
+          if (cfgSnap.exists()) {
+            state.appConfig = { ...state.appConfig, ...cfgSnap.data() };
+            syncConfigInputsFromState();
+          }
+        }).catch(err => console.warn("Load config/app_config:", err.message));
+      }
+    }
+
+    function syncConfigInputsFromState() {
+      const cfg = state.appConfig || {};
+      const setChecked = (id, val) => { const el = document.getElementById(id); if (el) el.checked = val !== false; };
+      const setVal = (id, val) => { const el = document.getElementById(id); if (el) el.value = val ?? ''; };
+      setChecked('cfg_rishta', cfg.rishtaEnabled);
+      setChecked('cfg_bazaar', cfg.bazaarEnabled);
+      setChecked('cfg_people', cfg.peopleEnabled);
+      setChecked('cfg_masjids', cfg.masjidsEnabled);
+      setChecked('cfg_videos', cfg.videosEnabled);
+      setChecked('cfg_caravans', cfg.caravansEnabled);
+      setVal('cfgHijriShift', cfg.hijriDayShiftDefault ?? 0);
+      setVal('cfgSehriMins', cfg.sehriMinutesDefault ?? 10);
+      setVal('cfgMinVersion', cfg.minAppVersion || '1.0.0');
+      setVal('cfgMaintenance', cfg.maintenanceMessage || '');
+      setVal('cfgBannerTitle', cfg.announcementBannerTitle || '');
+      setVal('cfgBannerText', cfg.announcementBannerText || '');
+      setVal('cfgDownloadUrl', cfg.appDownloadUrl || 'https://play.google.com/store/apps/details?id=com.salam.momineen');
+      setVal('cfgShareMsgUr', cfg.appShareMessageUr || '');
+      setVal('cfgShareMsgHi', cfg.appShareMessageHi || '');
+      setVal('cfgShareMsgEn', cfg.appShareMessageEn || '');
+    }
+
+    // Firebase Auth State Listener
+    onAuthStateChanged(auth, user => {
+      state.currentUser = user;
+      state.isCheckingAuth = false;
+      if (user) {
+        state.sessionStartedAtMs = Date.now();
+        state.reauthConfirmedAtMs = Date.now();
+        checkAdminStatus(true);
+      } else {
+        state.currentAdminDoc = null;
+        state.bootstrapNeeded = false;
+        state.lastLookupDiagnostic = 'not signed in';
+        renderAll();
+      }
+    });
+
+    function getAvailableTabs(admin) {
+      if (!admin) return [];
+      const tabs = [{ id: 'dashboard', label: 'Dashboard' }];
+      if (isSuperAdminRole(admin.role)) {
+        tabs.push({ id: 'admins', label: t('tab_admins') });
+      }
+      if (hasPermission(admin, 'bazaar')) tabs.push({ id: 'bazaar', label: t('tab_bazaar') });
+      if (hasPermission(admin, 'directory_people')) tabs.push({ id: 'people', label: t('tab_people') });
+      if (hasPermission(admin, 'directory_masjid')) tabs.push({ id: 'masjids', label: t('tab_masjids') });
+      if (hasPermission(admin, 'caravans')) tabs.push({ id: 'caravans', label: t('tab_caravans') });
+      if (hasPermission(admin, 'videos')) tabs.push({ id: 'videos', label: t('tab_videos') });
+      if (hasPermission(admin, 'rishta_review')) tabs.push({ id: 'rishta_review', label: t('tab_rishta_review') });
+      if (hasPermission(admin, 'rishta_contacts')) tabs.push({ id: 'rishta_contacts', label: t('tab_rishta_contacts') });
+      if (hasPermission(admin, 'reports')) tabs.push({ id: 'reports', label: t('tab_reports') });
+      if (hasPermission(admin, 'users_view')) tabs.push({ id: 'users', label: t('tab_users') });
+      if (hasPermission(admin, 'content') || isSuperAdminRole(admin.role)) {
+        tabs.push({ id: 'slides', label: 'Review Slides' });
+      }
+      if (hasPermission(admin, 'content') || hasPermission(admin, 'config') || isSuperAdminRole(admin.role)) {
+        tabs.push({ id: 'cms', label: 'CMS & Config' });
+      }
+      if (isSuperAdminRole(admin.role)) {
+        tabs.push({ id: 'backup', label: 'Backup JSON' });
+        tabs.push({ id: 'audit', label: t('tab_audit') });
+      }
+      return tabs;
+    }
+
+    // =========================================================================
+    // 4. Super Admin Actions (Add, Edit Permissions, Disable, Remove Sub-Admins)
+    // =========================================================================
+    async function saveSubAdmin() {
+      const current = getCurrentAdminRecord();
+      if (!current || !isSuperAdminRole(current.role)) return;
+      if (!requireFreshReauth()) return;
+
+      const editingUid = document.getElementById('editingAdminUid').value;
+      const inputUid = document.getElementById('admUid').value.trim();
+      const email = document.getElementById('admEmail').value.trim().toLowerCase();
+      const allowedState = document.getElementById('admState').value.trim() || null;
+      const allowedCity = document.getElementById('admCity').value.trim() || null;
+      const expiresAt = document.getElementById('admExpiry').value || null;
+
+      if (!email || !email.includes('@')) {
+        alert('Please enter a valid Google email address.');
+        return;
+      }
+      if (email === current.email.toLowerCase()) {
+        alert('Security Rule: No one can modify their own permissions.');
+        return;
+      }
+
+      const perms = {};
+      ALL_PERMS.forEach(p => {
+        const cb = document.getElementById('cb_perm_' + p);
+        perms[p] = Boolean(cb && cb.checked);
+      });
+
+      const targetUid = editingUid || inputUid;
+      if (!targetUid) {
+        alert('Please enter the Sub-Admin Firebase Auth UID.');
+        return;
+      }
+      if (targetUid === current.uid) {
+        alert('Security Rule: No one can modify their own admin record.');
+        return;
+      }
+
+      try {
+        if (editingUid) {
+          const target = state.admins.find(a => a.uid === editingUid);
+          if (!target || isSuperAdminRole(target.role)) return;
+          await updateDoc(doc(db, 'admins', target.uid), {
+            perms,
+            allowedState,
+            allowedCity,
+            expiresAt
+          });
+          target.perms = perms;
+          target.allowedState = allowedState;
+          target.allowedCity = allowedCity;
+          target.expiresAt = expiresAt;
+          appendAuditLog('EDIT_ADMIN_PERMISSIONS', 'admins', target.uid, `Updated admins/${target.uid} permissions for ${target.email}`);
+        } else {
+          if (state.admins.some(a => a.uid === targetUid || (a.email || '').trim().toLowerCase() === email)) {
+            alert('An admin with this UID or email already exists.');
+            return;
+          }
+          const newDoc = {
+            uid: targetUid,
+            email,
+            role: 'SUB_ADMIN',
+            isLastSuperAdmin: false,
+            perms,
+            allowedState,
+            allowedCity,
+            expiresAt,
+            disabled: false,
+            createdAt: Date.now()
+          };
+          await setDoc(doc(db, 'admins', targetUid), newDoc);
+          state.admins.push(newDoc);
+          appendAuditLog('ADD_SUB_ADMIN', 'admins', targetUid, `Created admins/${targetUid} for ${email}`);
+        }
+        resetAdminForm();
+        renderAll();
+      } catch (err) {
+        alert('Failed to save sub-admin to Firestore: ' + err.message);
+      }
+    }
+
+    function editSubAdmin(uid) {
+      const target = state.admins.find(a => a.uid === uid);
+      if (!target || isSuperAdminRole(target.role)) return;
+      document.getElementById('editingAdminUid').value = target.uid;
+      document.getElementById('admUid').value = target.uid;
+      document.getElementById('admUid').disabled = true;
+      document.getElementById('admEmail').value = target.email;
+      document.getElementById('admEmail').disabled = true;
+      document.getElementById('admState').value = target.allowedState || '';
+      document.getElementById('admCity').value = target.allowedCity || '';
+      document.getElementById('admExpiry').value = target.expiresAt || '';
+      ALL_PERMS.forEach(p => {
+        const cb = document.getElementById('cb_perm_' + p);
+        if (cb) cb.checked = Boolean((target.perms || target.permissions || {})[p]);
+      });
+      document.getElementById('btnCancelEdit').style.display = 'inline-block';
+    }
+
+    function resetAdminForm() {
+      document.getElementById('editingAdminUid').value = '';
+      document.getElementById('admUid').value = '';
+      document.getElementById('admUid').disabled = false;
+      document.getElementById('admEmail').value = '';
+      document.getElementById('admEmail').disabled = false;
+      document.getElementById('admState').value = '';
+      document.getElementById('admCity').value = '';
+      document.getElementById('admExpiry').value = '';
+      ALL_PERMS.forEach(p => {
+        const cb = document.getElementById('cb_perm_' + p);
+        if (cb) cb.checked = false;
+      });
+      document.getElementById('btnCancelEdit').style.display = 'none';
+    }
+
+    async function toggleDisableAdmin(uid) {
+      const current = getCurrentAdminRecord();
+      if (!current || !isSuperAdminRole(current.role)) return;
+      if (!requireFreshReauth()) return;
+
+      const target = state.admins.find(a => a.uid === uid);
+      if (!target || target.uid === current.uid) return;
+      if (isSuperAdminRole(target.role) || target.isLastSuperAdmin) {
+        alert('The last Super Admin cannot be disabled.');
+        return;
+      }
+      const nextDisabled = !target.disabled;
+      try {
+        await updateDoc(doc(db, 'admins', target.uid), { disabled: nextDisabled });
+        target.disabled = nextDisabled;
+        appendAuditLog(target.disabled ? 'DISABLE_ADMIN' : 'ENABLE_ADMIN', 'admins', target.uid, `${target.disabled ? 'Disabled' : 'Enabled'} admins/${target.uid} (${target.email})`);
+        renderAll();
+      } catch (err) {
+        alert('Failed to update admin status: ' + err.message);
+      }
+    }
+
+    async function removeAdminRecord(uid) {
+      const current = getCurrentAdminRecord();
+      if (!current || !isSuperAdminRole(current.role)) return;
+      if (!requireFreshReauth()) return;
+
+      const target = state.admins.find(a => a.uid === uid);
+      if (!target) return;
+      if (target.isLastSuperAdmin || isSuperAdminRole(target.role)) {
+        const superCount = state.admins.filter(a => isSuperAdminRole(a.role)).length;
+        if (superCount <= 1) {
+          alert('Security Invariant: The last Super Admin cannot be removed.');
+          return;
+        }
+      }
+      if (target.uid === current.uid) return;
+      try {
+        await deleteDoc(doc(db, 'admins', uid));
+        state.admins = state.admins.filter(a => a.uid !== uid);
+        appendAuditLog('REMOVE_ADMIN', 'admins', uid, `Deleted admins/${uid} (${target.email})`);
+        renderAll();
+      } catch (err) {
+        alert('Failed to delete admin: ' + err.message);
+      }
+    }
+
+    const COLLECTION_MAP = {
+      bazaar: 'bazaar_listings',
+      people: 'personalities',
+      masjids: 'masjids',
+      caravans: 'caravans',
+      videos: 'videos',
+      rishtaProfiles: 'rishta_profiles',
+      reports: 'reports'
+    };
+
+    // =========================================================================
+    // 5. Granular Moderation, Field Editing (edit_logs), & Guardian Phone Reveal
+    // =========================================================================
+    async function moderateItem(collectionKey, id, action, requiredPerm) {
+      const admin = getCurrentAdminRecord();
+      if (!hasPermission(admin, requiredPerm)) return;
+
+      const list = state[collectionKey];
+      const idx = list.findIndex(x => x.id === id);
+      if (idx === -1) return;
+      const item = list[idx];
+      if (!matchesGeographicScope(admin, item)) return;
+
+      const fsCol = COLLECTION_MAP[collectionKey] || collectionKey;
+      let details = `Status updated to ${action} by ${admin.email}`;
+
+      try {
+        if (action === 'REMOVE' || action === 'TAKEDOWN') {
+          await deleteDoc(doc(db, fsCol, id));
+          list.splice(idx, 1);
+        } else if (action === 'APPROVE') {
+          await updateDoc(doc(db, fsCol, id), { status: 'APPROVED', rejectionReason: '' });
+          item.status = 'APPROVED';
+          item.rejectionReason = '';
+        } else if (action === 'REJECT') {
+          const reason = prompt('Enter rejection reason (shown to the author so they can fix and resubmit):', 'Incomplete or inaccurate details');
+          if (reason === null) return;
+          const cleanReason = reason.trim() || 'Rejected by moderator';
+          await updateDoc(doc(db, fsCol, id), { status: 'REJECTED', rejectionReason: cleanReason });
+          item.status = 'REJECTED';
+          item.rejectionReason = cleanReason;
+          details = `Rejected with reason: "${item.rejectionReason}"`;
+        } else if (action === 'DISMISS') {
+          await updateDoc(doc(db, fsCol, id), { status: 'DISMISSED' });
+          item.status = 'DISMISSED';
+        }
+        appendAuditLog(`${action}_${fsCol.toUpperCase()}`, fsCol, id, details);
+        renderAll();
+      } catch (err) {
+        alert('Firestore update failed: ' + err.message);
+      }
+    }
+
+    async function editQueueItem(collectionKey, id, fieldName, requiredPerm) {
+      const admin = getCurrentAdminRecord();
+      if (!hasPermission(admin, requiredPerm)) return;
+      const list = state[collectionKey];
+      const item = list.find(x => x.id === id);
+      if (!item || !matchesGeographicScope(admin, item)) return;
+
+      const oldVal = item[fieldName] || '';
+      const newVal = prompt(`Edit field "${fieldName}" for ${id}:`, oldVal);
+      if (newVal === null || newVal.trim() === oldVal) return;
+      const editReason = prompt('Reason for editing this field (logged in append-only edit_logs):', 'Corrected spelling/formatting');
+      if (!editReason) return;
+
+      const fsCol = COLLECTION_MAP[collectionKey] || collectionKey;
+      try {
+        await updateDoc(doc(db, fsCol, id), { [fieldName]: newVal.trim() });
+        item[fieldName] = newVal.trim();
+        await addDoc(collection(db, 'edit_logs'), {
+          adminUid: admin.uid,
+          actor: admin.email,
+          collection: fsCol,
+          recordId: id,
+          field: fieldName,
+          oldValue: oldVal,
+          newValue: item[fieldName],
+          reason: editReason.trim(),
+          timestamp: serverTimestamp()
+        }).catch(() => {});
+        appendAuditLog(
+          'EDIT_FIELD',
+          `edit_logs (${fsCol})`,
+          id,
+          `Field "${fieldName}": "${oldVal}" -> "${item[fieldName]}" | Reason: ${editReason.trim()}`
+        );
+        renderAll();
+      } catch (err) {
+        alert('Firestore edit failed: ' + err.message);
+      }
+    }
+
+    async function revealGuardianPhone(profileId) {
+      const admin = getCurrentAdminRecord();
+      if (!hasPermission(admin, 'rishta_contacts')) return;
+      if (!requireFreshReauth()) return;
+      if (!confirm('Confirm revealing guardian contact? This access is permanently logged in admin_audit_logs.')) return;
+
+      const profile = state.rishtaProfiles.find(p => p.id === profileId);
+      if (!profile || !matchesGeographicScope(admin, profile)) return;
+
+      let phoneVal = profile.guardianPhone;
+      if (!phoneVal) {
+        try {
+          const privSnap = await getDoc(doc(db, 'rishta_private', profileId));
+          if (privSnap.exists()) {
+            phoneVal = privSnap.data().guardianPhone || '';
+            profile.guardianPhone = phoneVal;
+            profile.guardianName = privSnap.data().guardianName || profile.guardianName;
+          }
+        } catch (err) {
+          alert('Unable to read rishta_private/' + profileId + ': ' + err.message);
+          return;
+        }
+      }
+      state.revealedPhones[profileId] = phoneVal || 'Not provided';
+      appendAuditLog('REVEAL_GUARDIAN_PHONE', 'rishta_private', profileId, `Revealed guardian phone for candidate ${profile.id}`);
+      renderAll();
+    }
+
+    async function toggleBanUser(uid) {
+      const admin = getCurrentAdminRecord();
+      if (!hasPermission(admin, 'users_view')) return;
+      const user = state.users.find(u => u.uid === uid);
+      if (!user) return;
+      try {
+        if (user.status === 'BANNED') {
+          await deleteDoc(doc(db, 'banned', uid));
+          user.status = 'ACTIVE';
+          appendAuditLog('UNBAN_USER', 'banned', uid, `Removed banned/${uid} for ${user.displayName || uid}`);
+        } else {
+          const reason = prompt('Reason for banning user (stored in banned/' + uid + '):', 'Repeated community guideline violations');
+          if (!reason) return;
+          await setDoc(doc(db, 'banned', uid), { uid, reason: reason.trim(), bannedBy: admin.uid, createdAt: Date.now() });
+          user.status = 'BANNED';
+          appendAuditLog('BAN_USER', 'banned', uid, `Created banned/${uid}: ${reason}`);
+        }
+        renderAll();
+      } catch (err) {
+        alert('Failed to update ban state: ' + err.message);
+      }
+    }
+
+    async function banOrganiserByUid(uid, organiserName) {
+      const admin = getCurrentAdminRecord();
+      if (!hasPermission(admin, 'caravans') && !hasPermission(admin, 'users_view')) return;
+      if (!uid) return;
+      const reason = prompt(`Reason for banning organiser "${organiserName || uid}" (writes banned/${uid}):`, 'Fraudulent or misleading caravan listing');
+      if (!reason) return;
+      try {
+        await setDoc(doc(db, 'banned', uid), { uid, reason: reason.trim(), bannedBy: admin.uid, createdAt: Date.now() });
+        appendAuditLog('BAN_CARAVAN_ORGANISER', 'banned', uid, `Banned organiser ${organiserName || uid}: ${reason.trim()}`);
+        alert('Organiser banned in banned/' + uid);
+        renderAll();
+      } catch (err) {
+        alert('Failed to ban organiser (requires users_view / users permission or Super Admin in Firestore rules): ' + err.message);
+      }
+    }
+
+    async function deleteUserContent(uid) {
+      const admin = getCurrentAdminRecord();
+      if (!hasPermission(admin, 'users_view')) return;
+      if (!confirm('Delete all submissions and profile data for user ' + uid + '?')) return;
+      try {
+        await deleteDoc(doc(db, 'users', uid));
+        state.users = state.users.filter(u => u.uid !== uid);
+        appendAuditLog('DELETE_USER_CONTENT', 'users', uid, `Deleted users/${uid} on request`);
+        renderAll();
+      } catch (err) {
+        alert('Failed to delete user record: ' + err.message);
+      }
+    }
+
+    async function addVideoByAdmin() {
+      const admin = getCurrentAdminRecord();
+      if (!hasPermission(admin, 'videos')) return;
+      const title = document.getElementById('vidTitle').value.trim();
+      const speakerChannel = document.getElementById('vidSpeaker').value.trim();
+      const category = document.getElementById('vidCategory').value;
+      const sourceUrl = document.getElementById('vidUrl').value.trim();
+
+      if (!title || !speakerChannel || !/^https:\/\/(www\.|m\.)?(youtube\.com|youtu\.be|aparat\.com|vimeo\.com)\/.+$/i.test(sourceUrl)) {
+        alert('Please provide title, speaker/channel, and an approved HTTPS video link (YouTube, Vimeo, Aparat).');
+        return;
+      }
+      const id = 'vd_' + Math.random().toString(36).slice(2, 9);
+      const record = { title, speakerChannel, category, sourceUrl, status: 'APPROVED', rejectionReason: '', createdAt: Date.now() };
+      try {
+        await setDoc(doc(db, 'videos', id), record);
+        state.videos.unshift({ id, ...record });
+        appendAuditLog('ADD_VIDEO', 'videos', id, `Added video: ${title}`);
+        document.getElementById('vidTitle').value = '';
+        document.getElementById('vidSpeaker').value = '';
+        document.getElementById('vidUrl').value = '';
+        renderAll();
+      } catch (err) {
+        alert('Failed to add video to Firestore: ' + err.message);
+      }
+    }
+
+    async function approveSlide(slideId) {
+      const admin = getCurrentAdminRecord();
+      if (!admin) return;
+      const slide = state.slides.find(s => s.id === slideId);
+      if (!slide) return;
+      try {
+        await updateDoc(doc(db, 'cms_slides', slideId), { needsReview: false });
+        slide.needsReview = false;
+        state.appConfig.contentVersion += 1;
+        await setDoc(doc(db, 'config', 'app_config'), { contentVersion: state.appConfig.contentVersion }, { merge: true }).catch(() => {});
+        appendAuditLog('APPROVE_SLIDE', 'cms_slides', slideId, `Approved slide ${slideId}; cleared needsReview badge`);
+        renderAll();
+      } catch (err) {
+        alert('Failed to approve slide: ' + err.message);
+      }
+    }
+
+    async function editSlide(slideId) {
+      const admin = getCurrentAdminRecord();
+      if (!admin) return;
+      const slide = state.slides.find(s => s.id === slideId);
+      if (!slide) return;
+      const updatedQuote = prompt('Edit Arabic Ayah / Hadith text:', slide.quote || '');
+      if (updatedQuote === null) return;
+      const updatedSource = prompt('Edit Source reference:', slide.source || '');
+      if (updatedSource === null) return;
+      const nextQuote = updatedQuote.trim() || slide.quote;
+      const nextSource = updatedSource.trim() || slide.source;
+      try {
+        await updateDoc(doc(db, 'cms_slides', slideId), { quote: nextQuote, source: nextSource, needsReview: false });
+        slide.quote = nextQuote;
+        slide.source = nextSource;
+        slide.needsReview = false;
+        state.appConfig.contentVersion += 1;
+        await setDoc(doc(db, 'config', 'app_config'), { contentVersion: state.appConfig.contentVersion }, { merge: true }).catch(() => {});
+        appendAuditLog('EDIT_SLIDE', 'cms_slides', slideId, `Edited & approved slide ${slideId}`);
+        renderAll();
+      } catch (err) {
+        alert('Failed to edit slide: ' + err.message);
+      }
+    }
+
+    // Stage 4: Browser WebP Photo Compressor (<= 1280px, <= 250 KB, stored in Firestore media/{id})
+    function compressAndSavePhoto() {
+      const admin = getCurrentAdminRecord();
+      if (!admin) return;
+      const fileInput = document.getElementById('cmsPhotoInput');
+      const credit = document.getElementById('cmsPhotoCredit').value.trim();
+      const license = document.getElementById('cmsPhotoLicense').value.trim();
+      const sourceUrl = document.getElementById('cmsPhotoSource').value.trim();
+      const noFigures = document.getElementById('cmsNoFiguresConfirm').checked;
+
+      if (!credit || !license || !sourceUrl) {
+        alert('Credit, Licence, and Source Link are required for every image.');
+        return;
+      }
+      if (!noFigures) {
+        alert('You must confirm that the image contains NO faces or figures of the Prophet ﷺ, the Imams (a.s.), or Ahlul Bayt (a.s.).');
+        return;
+      }
+      if (!fileInput.files || !fileInput.files[0]) {
+        alert('Please choose an image file first.');
+        return;
+      }
+
+      const file = fileInput.files[0];
+      const reader = new FileReader();
+      reader.onload = function(ev) {
+        const img = new Image();
+        img.onload = async function() {
+          const maxSide = 1280;
+          let w = img.width;
+          let h = img.height;
+          if (w > maxSide || h > maxSide) {
+            if (w >= h) {
+              h = Math.round((h * maxSide) / w);
+              w = maxSide;
+            } else {
+              w = Math.round((w * maxSide) / h);
+              h = maxSide;
+            }
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          const dataUri = canvas.toDataURL('image/webp', 0.78);
+          const approxKb = Math.round((dataUri.length * 3) / 4 / 1024);
+          if (approxKb > 250) {
+            alert('Compressed image exceeds 250 KB (' + approxKb + ' KB). Please choose a simpler image.');
+            return;
+          }
+          const mediaId = 'med_' + Math.random().toString(36).slice(2, 8);
+          const mediaPayload = {
+            dataUri,
+            width: w,
+            height: h,
+            sizeKb: approxKb,
+            credit,
+            license,
+            sourceUrl,
+            noHumanFiguresConfirmed: true,
+            createdAt: Date.now()
+          };
+          try {
+            await setDoc(doc(db, 'media', mediaId), mediaPayload);
+            state.media.unshift({ id: mediaId, ...mediaPayload });
+            state.appConfig.contentVersion += 1;
+            appendAuditLog('UPLOAD_WEBP_MEDIA', 'media', mediaId, `Compressed to ${w}x${h} WebP (${approxKb} KB) | Credit: ${credit}`);
+            renderAll();
+          } catch (err) {
+            alert('Failed to save media to Firestore: ' + err.message);
+          }
+        };
+        img.src = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    async function saveAppConfig() {
+      const admin = getCurrentAdminRecord();
+      if (!admin) return;
+      state.appConfig.rishtaEnabled = document.getElementById('cfg_rishta').checked;
+      state.appConfig.bazaarEnabled = document.getElementById('cfg_bazaar').checked;
+      state.appConfig.peopleEnabled = document.getElementById('cfg_people').checked;
+      state.appConfig.masjidsEnabled = document.getElementById('cfg_masjids').checked;
+      state.appConfig.videosEnabled = document.getElementById('cfg_videos').checked;
+      state.appConfig.caravansEnabled = document.getElementById('cfg_caravans').checked;
+      state.appConfig.hijriDayShiftDefault = parseInt(document.getElementById('cfgHijriShift').value || '0', 10);
+      state.appConfig.sehriMinutesDefault = parseInt(document.getElementById('cfgSehriMins').value || '10', 10);
+      state.appConfig.minAppVersion = document.getElementById('cfgMinVersion').value.trim() || '1.0.0';
+      state.appConfig.maintenanceMessage = document.getElementById('cfgMaintenance').value.trim();
+      state.appConfig.announcementBannerTitle = document.getElementById('cfgBannerTitle').value.trim();
+      state.appConfig.announcementBannerText = document.getElementById('cfgBannerText').value.trim();
+      state.appConfig.appDownloadUrl = document.getElementById('cfgDownloadUrl').value.trim() || 'https://play.google.com/store/apps/details?id=com.salam.momineen';
+      state.appConfig.appShareMessageUr = document.getElementById('cfgShareMsgUr').value.trim();
+      state.appConfig.appShareMessageHi = document.getElementById('cfgShareMsgHi').value.trim();
+      state.appConfig.appShareMessageEn = document.getElementById('cfgShareMsgEn').value.trim();
+      state.appConfig.contentVersion = Number(state.appConfig.contentVersion || 1) + 1;
+
+      try {
+        await setDoc(doc(db, 'config', 'app_config'), state.appConfig, { merge: true });
+        appendAuditLog('UPDATE_APP_CONFIG', 'config', 'app_config', `Updated config/app_config (contentVersion=${state.appConfig.contentVersion})`);
+        alert('Saved config/app_config! Content version bumped to v' + state.appConfig.contentVersion);
+        renderAll();
+      } catch (err) {
+        alert('Failed to save config/app_config: ' + err.message);
+      }
+    }
+
+    // Stage 6: Export & Import JSON Backup
+    function exportBackupJson() {
+      const admin = getCurrentAdminRecord();
+      if (!admin || !isSuperAdminRole(admin.role)) return;
+      const payload = JSON.stringify({
+        exportedAt: new Date().toISOString(),
+        projectId: FIREBASE_PROJECT_ID,
+        databaseId: FIREBASE_DATABASE_ID,
+        collections: {
+          admins: state.admins,
+          bazaar_listings: state.bazaar,
+          personalities: state.people,
+          masjids: state.masjids,
+          caravans: state.caravans,
+          videos: state.videos,
+          rishta_profiles: state.rishtaProfiles,
+          reports: state.reports,
+          users: state.users,
+          cms_slides: state.slides,
+          media: state.media,
+          config: state.appConfig,
+          admin_audit_logs: state.auditLogs
+        }
+      }, null, 2);
+      const blob = new Blob([payload], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'salam-momineen-backup.json';
+      a.click();
+      URL.revokeObjectURL(url);
+      appendAuditLog('EXPORT_BACKUP_JSON', 'system', 'full_backup', 'Exported all collections to JSON');
+      renderAll();
+    }
+
+    function importBackupJson(event) {
+      const admin = getCurrentAdminRecord();
+      if (!admin || !isSuperAdminRole(admin.role)) return;
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          if (parsed && parsed.collections) {
+            if (Array.isArray(parsed.collections.bazaar_listings)) state.bazaar = parsed.collections.bazaar_listings;
+            if (Array.isArray(parsed.collections.personalities)) state.people = parsed.collections.personalities;
+            if (Array.isArray(parsed.collections.masjids)) state.masjids = parsed.collections.masjids;
+            if (Array.isArray(parsed.collections.caravans)) state.caravans = parsed.collections.caravans;
+            if (Array.isArray(parsed.collections.cms_slides)) state.slides = parsed.collections.cms_slides;
+            appendAuditLog('IMPORT_BACKUP_JSON', 'system', 'full_restore', 'Imported backup JSON file');
+            alert('Backup JSON restored successfully!');
+            renderAll();
+          }
+        } catch (err) {
+          alert('Invalid JSON backup file.');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    // Super Admin Only: Strictly detect recognizable sample/demo/mock docs in live Firestore (never touches real user records or admins/*)
+    const SAMPLE_DOC_IDS = new Set([
+      'bz_1', 'bz_2', 'pe_1', 'pe_2', 'ms_1', 'ms_2', 'vd_1',
+      'rs_1', 'rs_2', 'mt_1', 'rp_1', 'usr_101', 'usr_102',
+      'b1', 'b2', 'b3', 'b4', 'b5', 'p-1', 'p-2', 'p-3', 'p-4', 'int-1',
+      'approved_item_1', 'guest_item'
+    ]);
+    const SAMPLE_PHONES = [
+      '9839012345', '98390 12345', '9440054321', '94400 54321',
+      '9811099887', '98110 99887', '9758011223', '97580 11223',
+      '9849056789', '9935012345', '9927011223', '9876543210', '98765 43210'
+    ];
+
+    function detectSampleReason(colName, docId, data) {
+      if (SAMPLE_DOC_IDS.has(docId)) {
+        return 'Known sample document ID (' + docId + ')';
+      }
+      if (!data || typeof data !== 'object') return null;
+      if (data.isSample === true || data.isDemo === true || data.isMock === true) {
+        return 'Explicit sample/demo/mock flag';
+      }
+      const serialized = JSON.stringify(data).toLowerCase();
+      if (serialized.includes('@example.com') || serialized.includes('example.org') || serialized.includes('watch?v=example1')) {
+        return 'Contains @example.com / example1 URL';
+      }
+      if (serialized.includes('seller_initial_') || serialized.includes('seller_demo')) {
+        return 'Contains sample seller UID';
+      }
+      for (const ph of SAMPLE_PHONES) {
+        if (serialized.includes(ph)) {
+          return 'Contains sample placeholder phone (' + ph + ')';
+        }
+      }
+      if (colName === 'config' && (docId.includes('sample') || docId.includes('demo') || docId.includes('example'))) {
+        return 'Sample config doc ID';
+      }
+      return null;
+    }
+
+    async function scanFirestoreSampleData() {
+      const admin = getCurrentAdminRecord();
+      if (!admin || !isSuperAdminRole(admin.role)) return;
+      const reportEl = document.getElementById('sampleCleanupReport');
+      const delBtn = document.getElementById('btnDeleteScannedSamples');
+      if (reportEl) reportEl.textContent = 'Scanning live Firestore collections...';
+      if (delBtn) delBtn.style.display = 'none';
+
+      const targetCollections = [
+        'videos', 'bazaar_listings', 'rishta_profiles', 'rishta_private',
+        'rishta_interests', 'personalities', 'masjids', 'caravans', 'caravan_private', 'reports',
+        'users', 'cms_slides', 'config'
+      ];
+      const matches = [];
+      const scannedCounts = {};
+
+      for (const colName of targetCollections) {
+        try {
+          const snap = await getDocs(collection(db, colName));
+          scannedCounts[colName] = snap.size;
+          snap.forEach(d => {
+            const reason = detectSampleReason(colName, d.id, d.data());
+            if (reason) {
+              matches.push({ col: colName, id: d.id, reason });
+            }
+          });
+        } catch (err) {
+          scannedCounts[colName] = 'err: ' + err.message;
+        }
+      }
+
+      state.scannedSampleMatches = matches;
+      const summaryLine = Object.entries(scannedCounts).map(([c, n]) => `${escapeHtml(c)}: ${escapeHtml(String(n))}`).join(' | ');
+      if (matches.length === 0) {
+        if (reportEl) {
+          reportEl.innerHTML = `<div class="tag tag-approved">Clean — 0 recognizable sample documents found.</div><div style="margin-top:8px;">Scanned: ${summaryLine}</div>`;
+        }
+      } else {
+        if (delBtn) delBtn.style.display = 'inline-block';
+        if (reportEl) {
+          reportEl.innerHTML =
+            `<div class="tag tag-danger">Found ${matches.length} recognizable sample document(s):</div>` +
+            `<ul style="margin:8px 0 8px 20px;">` +
+            matches.map(m => `<li><code>${escapeHtml(m.col)}/${escapeHtml(m.id)}</code> &mdash; ${escapeHtml(m.reason)}</li>`).join('') +
+            `</ul>` +
+            `<div>Scanned: ${summaryLine}</div>`;
+        }
+      }
+    }
+
+    async function deleteScannedSampleData() {
+      const admin = getCurrentAdminRecord();
+      if (!admin || !isSuperAdminRole(admin.role)) return;
+      if (!requireFreshReauth()) return;
+      const matches = state.scannedSampleMatches || [];
+      if (matches.length === 0) return;
+
+      if (!confirm(`Permanently delete ${matches.length} matched sample document(s) from live Firestore? Real user documents and admins/* are untouched.`)) {
+        return;
+      }
+
+      const deleted = [];
+      const failed = [];
+      for (const m of matches) {
+        try {
+          await deleteDoc(doc(db, m.col, m.id));
+          deleted.push(`${m.col}/${m.id}`);
+        } catch (err) {
+          failed.push(`${m.col}/${m.id} (${err.message})`);
+        }
+      }
+
+      state.scannedSampleMatches = [];
+      const delBtn = document.getElementById('btnDeleteScannedSamples');
+      if (delBtn) delBtn.style.display = 'none';
+      const reportEl = document.getElementById('sampleCleanupReport');
+      if (reportEl) {
+        reportEl.innerHTML =
+          `<div><strong>Deleted (${deleted.length}):</strong> ${deleted.length ? deleted.map(x => `<code>${escapeHtml(x)}</code>`).join(', ') : 'None'}</div>` +
+          (failed.length ? `<div style="color:var(--danger);margin-top:6px;"><strong>Failed (${failed.length}):</strong> ${failed.map(x => escapeHtml(x)).join(', ')}</div>` : '');
+      }
+      if (deleted.length > 0) {
+        appendAuditLog('CLEAN_SAMPLE_DATA', 'system', 'sample_cleanup', `Deleted sample docs: ${deleted.join(', ')}`);
+        loadLiveAdminData();
+      }
+    }
+
+    // =========================================================================
+    // 6. UI Rendering
+    // =========================================================================
+    function renderAll() {
+      document.documentElement.lang = currentLang;
+      document.documentElement.dir = currentLang === 'ur' ? 'rtl' : 'ltr';
+
+      document.getElementById('lbl-app-title').textContent = t('app_title');
+      document.getElementById('lbl-isolated-badge').textContent = t('isolated_badge');
+      document.getElementById('btnReauth').textContent = t('reauth_btn');
+      document.getElementById('btnSignOut').textContent = t('sign_out');
+      document.getElementById('lbl-session-timer').textContent = t('session_timer');
+      document.getElementById('lbl-not-allowed-title').textContent = t('not_allowed_title');
+      document.getElementById('lbl-not-allowed-desc').textContent = t('not_allowed_desc');
+
+      const user = state.currentUser;
+      const admin = getCurrentAdminRecord();
+
+      const notSignedInView = document.getElementById('notSignedInView');
+      const superAdminBootstrapView = document.getElementById('superAdminBootstrapView');
+      const notAllowedView = document.getElementById('notAllowedView');
+      const adminPortalView = document.getElementById('adminPortalView');
+      const authStatusTag = document.getElementById('lbl-auth-status');
+      const userEmailDisplay = document.getElementById('lbl-user-email-display');
+      const btnGoogleSignIn = document.getElementById('btnGoogleSignIn');
+      const btnGoogleRedirectToolbar = document.getElementById('btnGoogleRedirectToolbar');
+      const btnSignOut = document.getElementById('btnSignOut');
+      const btnReauth = document.getElementById('btnReauth');
+      const sessionTimerEl = document.getElementById('lbl-session-timer');
+      const reauthEl = document.getElementById('lbl-reauth-status');
+      const scopeBadgeEl = document.getElementById('lbl-scope-badge');
+
+      if (!user) {
+        // STATE 1: User Not Signed In
+        authStatusTag.textContent = "Guest (Not signed in)";
+        authStatusTag.className = "tag tag-pending";
+        userEmailDisplay.textContent = "";
+        btnGoogleSignIn.style.display = "inline-flex";
+        if (btnGoogleRedirectToolbar) btnGoogleRedirectToolbar.style.display = "inline-block";
+        btnSignOut.style.display = "none";
+        btnReauth.style.display = "none";
+        sessionTimerEl.style.display = "none";
+        reauthEl.style.display = "none";
+        scopeBadgeEl.style.display = "none";
+
+        notSignedInView.style.display = "block";
+        superAdminBootstrapView.style.display = "none";
+        notAllowedView.style.display = "none";
+        adminPortalView.style.display = "none";
+        document.getElementById('lbl-active-role').textContent = "Not signed in";
+        return;
+      }
+
+      // User IS signed in
+      userEmailDisplay.textContent = user.email || user.uid;
+      btnGoogleSignIn.style.display = "none";
+      if (btnGoogleRedirectToolbar) btnGoogleRedirectToolbar.style.display = "none";
+      btnSignOut.style.display = "inline-block";
+      sessionTimerEl.style.display = "inline";
+      notSignedInView.style.display = "none";
+
+      const diagnosticLineHtml =
+        `<strong>Diagnostic</strong> &mdash; Project ID: <code>${escapeHtml(FIREBASE_PROJECT_ID)}</code> | ` +
+        `Database ID: <code>${escapeHtml(activeDatabaseId)}</code> | ` +
+        `Signed-in UID: <code>${escapeHtml(user.uid)}</code> | ` +
+        `Email: <code>${escapeHtml(user.email || 'none')}</code> | ` +
+        `<code>admins/${escapeHtml(user.uid)}</code>: <strong>${escapeHtml(state.lastLookupDiagnostic || 'checking...')}</strong>`;
+
+      if (state.bootstrapNeeded) {
+        // STATE 2: Approved Owner signed in, but admins/{uid} document not valid/found yet
+        authStatusTag.textContent = "Google Verified (Super Admin Pending Bootstrap)";
+        authStatusTag.className = "tag tag-approved";
+        btnReauth.style.display = "none";
+        reauthEl.style.display = "none";
+        scopeBadgeEl.style.display = "none";
+
+        document.getElementById('lbl-active-role').textContent = "Bootstrap Pending";
+        document.getElementById('lbl-bootstrap-email').textContent = user.email;
+        document.getElementById('txtBootstrapUid').value = user.uid;
+        document.getElementById('lbl-uid-inline').textContent = user.uid;
+        document.querySelectorAll('.txtCurrentUid').forEach(el => el.textContent = user.uid);
+        const diagBox = document.getElementById('bootstrapDiagnosticBox');
+        if (diagBox) diagBox.innerHTML = diagnosticLineHtml;
+
+        superAdminBootstrapView.style.display = "block";
+        notAllowedView.style.display = "none";
+        adminPortalView.style.display = "none";
+        return;
+      }
+
+      if (!admin) {
+        // STATE 3: Unauthorized user (or non-admin account)
+        authStatusTag.textContent = "Unauthorized Access Denied";
+        authStatusTag.className = "tag tag-rejected";
+        btnReauth.style.display = "none";
+        reauthEl.style.display = "none";
+        scopeBadgeEl.style.display = "none";
+
+        document.getElementById('lbl-active-role').textContent = t('not_allowed_title');
+        document.getElementById('lbl-unauthorized-email').textContent = user.email || "No email";
+        document.getElementById('lbl-unauthorized-uid').textContent = user.uid;
+        const notAllowedDiag = document.getElementById('notAllowedDiagnosticBox');
+        if (notAllowedDiag) notAllowedDiag.innerHTML = diagnosticLineHtml;
+
+        superAdminBootstrapView.style.display = "none";
+        notAllowedView.style.display = "block";
+        adminPortalView.style.display = "none";
+        return;
+      }
+
+      // STATE 4: Authorized Admin / Super Admin
+      authStatusTag.textContent = "Connected & Authorized";
+      authStatusTag.className = "tag tag-approved";
+      btnReauth.style.display = "inline-block";
+      reauthEl.style.display = "inline-block";
+      scopeBadgeEl.style.display = "inline-block";
+
+      reauthEl.textContent = isReauthFresh() ? t('reauth_active') : t('reauth_needed');
+      reauthEl.className = 'tag ' + (isReauthFresh() ? 'tag-approved' : 'tag-pending');
+
+      superAdminBootstrapView.style.display = "none";
+      notAllowedView.style.display = "none";
+      adminPortalView.style.display = "block";
+
+      document.getElementById('lbl-active-role').textContent =
+        isSuperAdminRole(admin.role) ? t('role_super_admin') : t('role_sub_admin');
+
+      const scopeText = (admin.allowedState || admin.allowedCity)
+        ? `Scope: ${[admin.allowedCity, admin.allowedState].filter(Boolean).join(', ')}`
+        : t('scope_all');
+      scopeBadgeEl.textContent = scopeText;
+
+      // Render Dashboard Stats
+      const dashEl = document.getElementById('dashboardStatsGrid');
+      if (dashEl) {
+        const pendingBazaar = state.bazaar.filter(x => x.status === 'PENDING').length;
+        const pendingRishta = state.rishtaProfiles.filter(x => x.status === 'PENDING').length;
+        const pendingPeople = state.people.filter(x => x.status === 'PENDING').length;
+        const pendingMasjids = state.masjids.filter(x => x.status === 'PENDING').length;
+        const pendingCaravans = state.caravans.filter(x => x.status === 'PENDING').length;
+        const pendingVideos = state.videos.filter(x => x.status === 'PENDING').length;
+        const openReports = state.reports.filter(x => x.status === 'OPEN').length;
+        dashEl.innerHTML = `
+          <div class="card" style="margin:0;"><div class="card-title">Pending Bazaar</div><div style="font-size:1.6rem;font-weight:700;">${pendingBazaar}</div></div>
+          <div class="card" style="margin:0;"><div class="card-title">Pending Rishta</div><div style="font-size:1.6rem;font-weight:700;">${pendingRishta}</div></div>
+          <div class="card" style="margin:0;"><div class="card-title">Pending Scholars &amp; Masjids</div><div style="font-size:1.6rem;font-weight:700;">${pendingPeople + pendingMasjids}</div></div>
+          <div class="card" style="margin:0;"><div class="card-title">Pending Caravans</div><div style="font-size:1.6rem;font-weight:700;">${pendingCaravans}</div></div>
+          <div class="card" style="margin:0;"><div class="card-title">Pending Videos</div><div style="font-size:1.6rem;font-weight:700;">${pendingVideos}</div></div>
+          <div class="card" style="margin:0;"><div class="card-title">Open Reports</div><div style="font-size:1.6rem;font-weight:700;color:var(--danger);">${openReports}</div></div>
+          <div class="card" style="margin:0;"><div class="card-title">Total Users (This Week: +${state.users.length})</div><div style="font-size:1.6rem;font-weight:700;">${state.users.length}</div></div>
+        `;
+      }
+
+      // Render Permission Checkboxes
+      const permContainer = document.getElementById('permCheckboxes');
+      if (permContainer && permContainer.children.length === 0) {
+        permContainer.innerHTML = ALL_PERMS.map(p => `
+          <label class="perm-item">
+            <input type="checkbox" id="cb_perm_${escapeHtml(p)}" value="${escapeHtml(p)}">
+            <span>${escapeHtml(t('perm_' + p))}</span>
+          </label>
+        `).join('');
+      } else {
+        ALL_PERMS.forEach(p => {
+          const cb = document.getElementById('cb_perm_' + p);
+          if (cb && cb.nextElementSibling) cb.nextElementSibling.textContent = t('perm_' + p);
+        });
+      }
+
+      const tabs = getAvailableTabs(admin);
+      if (!tabs.some(tb => tb.id === state.activeTab) && tabs.length > 0) {
+        state.activeTab = tabs[0].id;
+      }
+      const tabsEl = document.getElementById('adminTabs');
+      tabsEl.innerHTML = tabs.map(tb => `
+        <button class="tab-btn ${tb.id === state.activeTab ? 'active' : ''}" onclick="selectTab('${escapeHtml(tb.id)}')">
+          ${escapeHtml(tb.label)}
+        </button>
+      `).join('');
+
+      document.querySelectorAll('.tab-section').forEach(sec => sec.style.display = 'none');
+      const activeSec = document.getElementById('sec-' + state.activeTab);
+      if (activeSec) activeSec.style.display = 'block';
+
+      document.getElementById('lbl-add-admin-title').textContent = t('add_admin_title');
+      document.getElementById('lbl-reauth-prompt').textContent = t('reauth_prompt');
+      document.getElementById('lbl-admin-email').textContent = t('admin_email_label');
+      document.getElementById('lbl-admin-state').textContent = t('admin_state_label');
+      document.getElementById('lbl-admin-city').textContent = t('admin_city_label');
+      document.getElementById('lbl-admin-expiry').textContent = t('admin_expiry_label');
+      document.getElementById('lbl-admin-perms').textContent = t('admin_perms_label');
+      document.getElementById('btnSaveAdmin').textContent = t('save_admin_btn');
+      document.getElementById('lbl-phone-hidden-notice').textContent = t('phone_hidden_notice');
+      document.getElementById('lbl-users-privacy-notice').textContent = t('users_privacy_notice');
+      document.getElementById('lbl-audit-immutable-notice').textContent = t('audit_immutable_notice');
+
+      function emptyRow(colspan) {
+        return `<tr><td colspan="${colspan}" style="text-align:center;color:var(--text-muted);padding:18px;">${escapeHtml(t('no_records'))}</td></tr>`;
+      }
+
+      // 1. Render Admins Table (Super Admin only)
+      if (isSuperAdminRole(admin.role)) {
+        document.getElementById('adminsTableBody').innerHTML = state.admins.length === 0 ? emptyRow(7) : state.admins.map(a => {
+          const permsMap = a.perms || a.permissions || {};
+          const activePerms = isSuperAdminRole(a.role)
+            ? ['ALL (SUPER_ADMIN)']
+            : Object.keys(permsMap).filter(k => permsMap[k]);
+          const isSelf = a.uid === admin.uid;
+          return `
+            <tr>
+              <td><strong>${escapeHtml(a.email)}</strong></td>
+              <td><span class="tag ${isSuperAdminRole(a.role) ? 'tag-approved' : 'tag-perm'}">${escapeHtml(a.role)}</span></td>
+              <td>${activePerms.map(p => `<span class="tag tag-perm">${escapeHtml(p)}</span>`).join(' ') || 'None'}</td>
+              <td>${escapeHtml([a.allowedCity, a.allowedState].filter(Boolean).join(', ') || 'All')}</td>
+              <td>${escapeHtml(a.expiresAt || 'Never')}</td>
+              <td><span class="tag ${a.disabled ? 'tag-danger' : 'tag-approved'}">${a.disabled ? 'Disabled' : 'Active'}</span></td>
+              <td>
+                ${isSubAdminRole(a.role) && !isSelf ? `
+                  <button class="btn btn-outline" onclick="editSubAdmin('${escapeHtml(a.uid)}')">${escapeHtml(t('edit_perms_btn'))}</button>
+                  <button class="btn btn-reject" onclick="toggleDisableAdmin('${escapeHtml(a.uid)}')">${escapeHtml(a.disabled ? t('enable_btn') : t('disable_btn'))}</button>
+                  <button class="btn btn-remove" onclick="removeAdminRecord('${escapeHtml(a.uid)}')">${escapeHtml(t('remove_btn'))}</button>
+                ` : `<span style="color:var(--text-muted);font-size:0.8rem;">Protected Super Admin (isLastSuperAdmin)</span>`}
+              </td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      // 2. Render Bazaar (with Edit Any Field -> edit_logs)
+      if (hasPermission(admin, 'bazaar')) {
+        const items = state.bazaar.filter(x => matchesGeographicScope(admin, x));
+        document.getElementById('bazaarTableBody').innerHTML = items.length === 0 ? emptyRow(7) : items.map(b => `
+          <tr>
+            <td><strong>${escapeHtml(b.name || b.title || b.id)}</strong>${b.rejectionReason ? `<br><small style="color:var(--danger);">Reason: ${escapeHtml(b.rejectionReason)}</small>` : ''}</td>
+            <td>${escapeHtml(b.category)}</td>
+            <td>₹${escapeHtml(b.priceInr)}</td>
+            <td>${escapeHtml(b.city || '')}${b.state ? `, ${escapeHtml(b.state)}` : ''}</td>
+            <td>${escapeHtml(b.sellerName || '')}</td>
+            <td><span class="tag ${b.status === 'APPROVED' ? 'tag-approved' : 'tag-pending'}">${escapeHtml(b.status)}</span></td>
+            <td>
+              <button class="btn btn-approve" onclick="moderateItem('bazaar','${escapeHtml(b.id)}','APPROVE','bazaar')">${escapeHtml(t('approve_btn'))}</button>
+              <button class="btn btn-reject" onclick="moderateItem('bazaar','${escapeHtml(b.id)}','REJECT','bazaar')">${escapeHtml(t('reject_btn'))}</button>
+              <button class="btn btn-outline" onclick="editQueueItem('bazaar','${escapeHtml(b.id)}','name','bazaar')">Edit Field</button>
+              <button class="btn btn-remove" onclick="moderateItem('bazaar','${escapeHtml(b.id)}','REMOVE','bazaar')">${escapeHtml(t('delete_btn'))}</button>
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      // 3. Render Personalities
+      if (hasPermission(admin, 'directory_people')) {
+        const items = state.people.filter(x => matchesGeographicScope(admin, x));
+        document.getElementById('peopleTableBody').innerHTML = items.length === 0 ? emptyRow(6) : items.map(p => `
+          <tr>
+            <td><strong>${escapeHtml(p.name)}</strong></td>
+            <td>${escapeHtml(p.roleTitle)}</td>
+            <td>${escapeHtml(p.category)}</td>
+            <td>${escapeHtml(p.city || '')}${p.state ? `, ${escapeHtml(p.state)}` : ''}</td>
+            <td><span class="tag ${p.status === 'APPROVED' ? 'tag-approved' : 'tag-pending'}">${escapeHtml(p.status)}</span></td>
+            <td>
+              <button class="btn btn-approve" onclick="moderateItem('people','${escapeHtml(p.id)}','APPROVE','directory_people')">${escapeHtml(t('approve_btn'))}</button>
+              <button class="btn btn-reject" onclick="moderateItem('people','${escapeHtml(p.id)}','REJECT','directory_people')">${escapeHtml(t('reject_btn'))}</button>
+              <button class="btn btn-outline" onclick="editQueueItem('people','${escapeHtml(p.id)}','name','directory_people')">Edit Field</button>
+              <button class="btn btn-remove" onclick="moderateItem('people','${escapeHtml(p.id)}','REMOVE','directory_people')">${escapeHtml(t('delete_btn'))}</button>
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      // 4. Render Masjids
+      if (hasPermission(admin, 'directory_masjid')) {
+        const items = state.masjids.filter(x => matchesGeographicScope(admin, x));
+        document.getElementById('masjidsTableBody').innerHTML = items.length === 0 ? emptyRow(6) : items.map(m => `
+          <tr>
+            <td><strong>${escapeHtml(m.name)}</strong></td>
+            <td>${escapeHtml(m.type)}</td>
+            <td>${escapeHtml(m.villageTown || '')}${m.state ? `, ${escapeHtml(m.state)}` : ''}</td>
+            <td>${escapeHtml(m.scheduleText)}</td>
+            <td><span class="tag ${m.status === 'APPROVED' ? 'tag-approved' : 'tag-pending'}">${escapeHtml(m.status)}</span></td>
+            <td>
+              <button class="btn btn-approve" onclick="moderateItem('masjids','${escapeHtml(m.id)}','APPROVE','directory_masjid')">${escapeHtml(t('approve_btn'))}</button>
+              <button class="btn btn-reject" onclick="moderateItem('masjids','${escapeHtml(m.id)}','REJECT','directory_masjid')">${escapeHtml(t('reject_btn'))}</button>
+              <button class="btn btn-outline" onclick="editQueueItem('masjids','${escapeHtml(m.id)}','name','directory_masjid')">Edit Field</button>
+              <button class="btn btn-remove" onclick="moderateItem('masjids','${escapeHtml(m.id)}','REMOVE','directory_masjid')">${escapeHtml(t('delete_btn'))}</button>
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      // 4b. Render Ziyarat Caravans
+      if (hasPermission(admin, 'caravans')) {
+        const items = state.caravans.filter(x => matchesGeographicScope(admin, x));
+        document.getElementById('caravansTableBody').innerHTML = items.length === 0 ? emptyRow(7) : items.map(c => `
+          <tr>
+            <td><strong>${escapeHtml(c.title)}</strong>${c.documentsNeeded ? `<br><small>${escapeHtml(c.documentsNeeded)}</small>` : ''}${c.rejectionReason ? `<br><small style="color:var(--danger);">Reason: ${escapeHtml(c.rejectionReason)}</small>` : ''}</td>
+            <td>${escapeHtml(c.destination)}</td>
+            <td>${escapeHtml(c.departureCity || '')}${c.departureState ? `, ${escapeHtml(c.departureState)}` : ''}<br><small>${escapeHtml(c.departureDate)} &rarr; ${escapeHtml(c.returnDate)} (${escapeHtml(c.durationDays)}d)</small></td>
+            <td>₹${escapeHtml(c.startingPriceInr)}<br><small>${escapeHtml(c.seatsLeft)} seats left</small></td>
+            <td><strong>${escapeHtml(c.organiserName)}</strong><br><small>${escapeHtml(c.licenceOrReg || '')}</small></td>
+            <td><span class="tag ${c.status === 'APPROVED' ? 'tag-approved' : (c.status === 'REJECTED' ? 'tag-danger' : 'tag-pending')}">${escapeHtml(c.status)} / ${escapeHtml(c.operationalStatus || 'OPEN')}</span></td>
+            <td>
+              <button class="btn btn-approve" onclick="moderateItem('caravans','${escapeHtml(c.id)}','APPROVE','caravans')">${escapeHtml(t('approve_btn'))}</button>
+              <button class="btn btn-reject" onclick="moderateItem('caravans','${escapeHtml(c.id)}','REJECT','caravans')">${escapeHtml(t('reject_btn'))}</button>
+              <button class="btn btn-outline" onclick="editQueueItem('caravans','${escapeHtml(c.id)}','title','caravans')">Edit Field</button>
+              <button class="btn btn-remove" onclick="moderateItem('caravans','${escapeHtml(c.id)}','REMOVE','caravans')">${escapeHtml(t('delete_btn'))}</button>
+              ${c.createdByUid ? `<button class="btn btn-danger" onclick="banOrganiserByUid('${escapeHtml(c.createdByUid)}','${escapeHtml(c.organiserName || '')}')">Ban Organiser</button>` : ''}
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      // 5. Render Videos
+      if (hasPermission(admin, 'videos')) {
+        document.getElementById('videosTableBody').innerHTML = state.videos.length === 0 ? emptyRow(6) : state.videos.map(v => `
+          <tr>
+            <td><strong>${escapeHtml(v.title)}</strong></td>
+            <td>${escapeHtml(v.speakerChannel)}</td>
+            <td>${escapeHtml(v.category)}</td>
+            <td><a href="${escapeHtml(v.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(v.sourceUrl)}</a></td>
+            <td><span class="tag ${v.status === 'APPROVED' ? 'tag-approved' : 'tag-pending'}">${escapeHtml(v.status)}</span></td>
+            <td>
+              <button class="btn btn-approve" onclick="moderateItem('videos','${escapeHtml(v.id)}','APPROVE','videos')">${escapeHtml(t('approve_btn'))}</button>
+              <button class="btn btn-reject" onclick="moderateItem('videos','${escapeHtml(v.id)}','REJECT','videos')">${escapeHtml(t('reject_btn'))}</button>
+              <button class="btn btn-outline" onclick="editQueueItem('videos','${escapeHtml(v.id)}','title','videos')">Edit Field</button>
+              <button class="btn btn-remove" onclick="moderateItem('videos','${escapeHtml(v.id)}','REMOVE','videos')">${escapeHtml(t('delete_btn'))}</button>
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      // 6. Render Rishta Review (NO guardian phone numbers ever shown here!)
+      if (hasPermission(admin, 'rishta_review')) {
+        const items = state.rishtaProfiles.filter(x => matchesGeographicScope(admin, x));
+        document.getElementById('rishtaReviewTableBody').innerHTML = items.length === 0 ? emptyRow(7) : items.map(r => `
+          <tr>
+            <td><strong>${escapeHtml(r.name)}</strong></td>
+            <td>${escapeHtml(r.age)} • ${escapeHtml(r.category)}</td>
+            <td>${escapeHtml(r.city || '')}${r.state ? `, ${escapeHtml(r.state)}` : ''}</td>
+            <td>${escapeHtml(r.education)} • ${escapeHtml(r.job)}</td>
+            <td><span class="tag tag-pending">${escapeHtml(t('phone_hidden_notice'))}</span></td>
+            <td><span class="tag ${r.status === 'APPROVED' ? 'tag-approved' : 'tag-pending'}">${escapeHtml(r.status)}</span></td>
+            <td>
+              <button class="btn btn-approve" onclick="moderateItem('rishtaProfiles','${escapeHtml(r.id)}','APPROVE','rishta_review')">${escapeHtml(t('approve_btn'))}</button>
+              <button class="btn btn-reject" onclick="moderateItem('rishtaProfiles','${escapeHtml(r.id)}','REJECT','rishta_review')">${escapeHtml(t('reject_btn'))}</button>
+              <button class="btn btn-outline" onclick="editQueueItem('rishtaProfiles','${escapeHtml(r.id)}','education','rishta_review')">Edit Field</button>
+              <button class="btn btn-remove" onclick="moderateItem('rishtaProfiles','${escapeHtml(r.id)}','REMOVE','rishta_review')">${escapeHtml(t('delete_btn'))}</button>
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      // 7. Render Rishta Contacts (Masked by default; Tap to Reveal writes Audit Log)
+      if (hasPermission(admin, 'rishta_contacts')) {
+        const items = state.rishtaProfiles.filter(x => matchesGeographicScope(admin, x));
+        document.getElementById('rishtaContactsTableBody').innerHTML = items.length === 0 ? emptyRow(5) : items.map(r => {
+          const revealed = state.revealedPhones[r.id];
+          return `
+            <tr>
+              <td><strong>${escapeHtml(r.name)}</strong></td>
+              <td>${escapeHtml(r.city || '')}${r.state ? `, ${escapeHtml(r.state)}` : ''}</td>
+              <td>${escapeHtml(r.guardianName)}</td>
+              <td><strong>${revealed ? escapeHtml(revealed) : maskPhone(r.guardianPhone)}</strong></td>
+              <td>
+                ${!revealed ? `<button class="btn btn-primary" onclick="revealGuardianPhone('${escapeHtml(r.id)}')">${escapeHtml(t('reveal_phone_btn'))}</button>` : `<span class="tag tag-approved">Logged in Audit ✓</span>`}
+              </td>
+            </tr>
+          `;
+        }).join('');
+
+        document.getElementById('rishtaMatchesTableBody').innerHTML = state.rishtaMatches.length === 0 ? emptyRow(4) : state.rishtaMatches.map(m => `
+          <tr>
+            <td>${escapeHtml(m.id)}</td>
+            <td>${escapeHtml(m.fromProfile)}</td>
+            <td>${escapeHtml(m.toProfile)}</td>
+            <td><span class="tag tag-approved">${escapeHtml(m.status)}</span></td>
+          </tr>
+        `).join('');
+      }
+
+      // 8. Render Reports
+      if (hasPermission(admin, 'reports')) {
+        document.getElementById('reportsTableBody').innerHTML = state.reports.length === 0 ? emptyRow(4) : state.reports.map(rp => `
+          <tr>
+            <td><strong>${escapeHtml(rp.target)}</strong></td>
+            <td>${escapeHtml(rp.reason)}</td>
+            <td><span class="tag tag-pending">${escapeHtml(rp.status)}</span></td>
+            <td>
+              <button class="btn btn-approve" onclick="moderateItem('reports','${escapeHtml(rp.id)}','DISMISS','reports')">${escapeHtml(t('dismiss_btn'))}</button>
+              <button class="btn btn-reject" onclick="moderateItem('reports','${escapeHtml(rp.id)}','TAKEDOWN','reports')">${escapeHtml(t('takedown_btn'))}</button>
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      // 9. Render Users (Ban / Unban & Delete User Content)
+      if (hasPermission(admin, 'users_view')) {
+        document.getElementById('usersTableBody').innerHTML = state.users.length === 0 ? emptyRow(5) : state.users.map(u => `
+          <tr>
+            <td><code>${escapeHtml(u.uid)}</code></td>
+            <td><strong>${escapeHtml(u.displayName)}</strong><br><small>${escapeHtml(u.email || '')} (${u.verified ? 'Verified' : 'Unverified'})</small></td>
+            <td>${escapeHtml(u.city || '')}${u.state ? `, ${escapeHtml(u.state)}` : ''}</td>
+            <td><span class="tag ${u.status === 'BANNED' ? 'tag-danger' : 'tag-approved'}">${escapeHtml(u.status || 'ACTIVE')}</span></td>
+            <td>
+              ${escapeHtml(u.createdAt || '')}
+              <button class="btn ${u.status === 'BANNED' ? 'btn-approve' : 'btn-reject'}" onclick="toggleBanUser('${escapeHtml(u.uid)}')">${u.status === 'BANNED' ? 'Unban' : 'Ban User'}</button>
+              <button class="btn btn-remove" onclick="deleteUserContent('${escapeHtml(u.uid)}')">Delete Content</button>
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      // 9b. Render Review Slides
+      const slidesBody = document.getElementById('slidesTableBody');
+      if (slidesBody) {
+        slidesBody.innerHTML = state.slides.length === 0 ? emptyRow(6) : state.slides.map(s => `
+          <tr>
+            <td><strong>Month ${escapeHtml(s.hijriMonth)}</strong><br><small>${escapeHtml(s.hijriDate)}</small></td>
+            <td><strong>${escapeHtml(s.calligraphyAr)}</strong><br><small>${escapeHtml(s.title)}</small></td>
+            <td><div>${escapeHtml(s.quote)}</div><small style="color:var(--text-muted);">${escapeHtml(s.source)}</small></td>
+            <td><span class="tag ${s.mood === 'grief' ? 'tag-danger' : 'tag-approved'}">${escapeHtml(s.mood)}</span></td>
+            <td><span class="tag ${s.needsReview ? 'tag-pending' : 'tag-approved'}">${s.needsReview ? 'Under review (زیرِ جائزہ)' : 'Approved ✓'}</span></td>
+            <td>
+              <button class="btn btn-approve" onclick="approveSlide('${escapeHtml(s.id)}')">${escapeHtml(t('approve_btn'))}</button>
+              <button class="btn btn-outline" onclick="editSlide('${escapeHtml(s.id)}')">Edit</button>
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      // 9c. Render CMS Media list
+      const mediaListEl = document.getElementById('cmsMediaList');
+      if (mediaListEl) {
+        mediaListEl.innerHTML = state.media.length === 0
+          ? `<div style="padding:12px;color:var(--text-muted);text-align:center;">${escapeHtml(t('no_records'))}</div>`
+          : state.media.map(m => `
+            <div style="padding:8px;border:1px solid var(--border);border-radius:6px;margin-top:6px;">
+              <strong>${escapeHtml(m.id)}</strong> (${m.width}x${m.height} WebP, ${m.sizeKb} KB) • Credit: ${escapeHtml(m.credit)} • Licence: ${escapeHtml(m.license)}
+            </div>
+          `).join('');
+      }
+
+      // 10. Render Immutable Audit & Edit Logs (Super Admin ONLY — zero edit/delete buttons)
+      if (isSuperAdminRole(admin.role)) {
+        document.getElementById('auditTableBody').innerHTML = state.auditLogs.length === 0 ? emptyRow(5) : state.auditLogs.map(log => `
+          <tr>
+            <td><code>${escapeHtml(log.ts)}</code></td>
+            <td>${escapeHtml(log.actor)}</td>
+            <td><span class="tag tag-perm">${escapeHtml(log.action)}</span></td>
+            <td><code>${escapeHtml(log.record)}</code></td>
+            <td>${escapeHtml(log.details)}</td>
+          </tr>
+        `).join('');
+      }
+    }
+
+    function selectTab(tabId) {
+      state.activeTab = tabId;
+      renderAll();
+    }
+
+    document.getElementById('langSelect').addEventListener('change', function(e) {
+      currentLang = e.target.value;
+      renderAll();
+    });
+
+    // Expose onclick handlers from ES module scope to global window
+    Object.assign(window, {
+      handleGoogleSignIn,
+      triggerStepUpReauth,
+      handleSignOut,
+      copyBootstrapUid,
+      checkAdminStatus,
+      saveSubAdmin,
+      editSubAdmin,
+      resetAdminForm,
+      toggleDisableAdmin,
+      removeAdminRecord,
+      moderateItem,
+      editQueueItem,
+      revealGuardianPhone,
+      toggleBanUser,
+      banOrganiserByUid,
+      deleteUserContent,
+      addVideoByAdmin,
+      approveSlide,
+      editSlide,
+      compressAndSavePhoto,
+      saveAppConfig,
+      exportBackupJson,
+      importBackupJson,
+      scanFirestoreSampleData,
+      deleteScannedSampleData,
+      selectTab
+    });
+
+    renderAll();
+  </script>
+</body>
+</html>
